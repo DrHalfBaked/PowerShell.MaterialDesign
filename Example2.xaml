@@ -1,0 +1,53 @@
+<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+	Name="MainWindow"
+	Title="Examples"
+    Height="500"
+	Width="500"
+    Style="{DynamicResource MaterialDesignWindow}" 
+	WindowStartupLocation="CenterScreen"
+	ResizeMode="CanResize"
+	TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+	TextElement.FontSize="14"
+    TextElement.FontFamily="Roboto"
+	TextOptions.TextFormattingMode="Ideal"
+	TextOptions.TextRenderingMode="Auto"
+	Background="{DynamicResource MaterialDesignPaper}" >
+
+	<Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.BlueGrey.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.DeepOrange.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <Button  Name="Btn_OpenFile" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" ToolTip="Open File" Margin="5">
+                    <md:PackIcon Kind="FolderOpenOutline" Height="25" Width="25" />
+                </Button>
+                <Button Name="Btn_SaveFile" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" ToolTip="Save File" Margin="5">
+                    <md:PackIcon Kind="ContentSaveOutline" Height="25" Width="25" />
+                </Button>
+            </StackPanel>
+            <TextBox 
+                Name="TextBox_Editor" 
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                VerticalAlignment="Top"
+                Height="300"
+                Width="400"
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto"
+                Margin="0,10,0,0"/>
+        </StackPanel>
+    </Grid>
+
+</Window>
