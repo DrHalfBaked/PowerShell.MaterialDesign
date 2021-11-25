@@ -1,7 +1,7 @@
 ###########
 #  Learn how to build Material Design based PowerShell apps
 #  --------------------
-#  Example4 Data Tables
+#  Example4: DataTables
 #  --------------------
 #  Avi Coren (c)
 #  Blog     - https://avicoren.wixsite.com/powershell

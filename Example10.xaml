@@ -27,27 +27,15 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <StackPanel Orientation="Horizontal">
-                <Button  Name="Btn_OpenFile" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" ToolTip="Open File" Margin="5">
-                    <materialDesign:PackIcon Kind="FolderOpenOutline" Height="25" Width="25" />
-                </Button>
-                <Button Name="Btn_SaveFile" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" ToolTip="Save File" Margin="5">
-                    <materialDesign:PackIcon Kind="ContentSaveOutline" Height="25" Width="25" />
-                </Button>
+	<materialDesign:DialogHost Name="DialogBox" CloseOnClickAway="True" > 
+        <!-- The fun starts here -->
+        <Grid>
+            <StackPanel>
+                
+                <Button    Name="Btn1"    Width="120" Content="Information"  Margin="0,15,0,0"/>
+                <Button    Name="Btn2"    Width="120" Content="Error"    Margin="0,15,0,0"/>
+                                           
             </StackPanel>
-            <TextBox 
-                Name="TextBox_Editor" 
-                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                VerticalAlignment="Top"
-                Height="300"
-                Width="400"
-                AcceptsReturn="True"
-                TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto"
-                Margin="0,10,0,0"/>
-        </StackPanel>
-    </Grid>
-
+        </Grid>
+	</materialDesign:DialogHost>
 </Window>

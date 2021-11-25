@@ -1,25 +1,28 @@
 ###########
 #  Learn how to build Material Design based PowerShell apps
+#  --------------------
+#  Example2: Open and Save Dialog boxes
+#  --------------------
 #  Avi Coren (c)
 #  Blog     - https://avicoren.wixsite.com/powershell
 #  Github   - https://github.com/DrHalfBaked/PowerShell
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-[System.Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
-[System.Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
-[System.Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignColors.dll")
+[Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
+[Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
+[Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignColors.dll")
 
 try {
     [xml]$Xaml = (Get-content "$PSScriptRoot\Example2.xaml")
-} catch {
-    Write-Error "Error importing Xaml file.`n$_"
+    $Reader = New-Object System.Xml.XmlNodeReader $Xaml
+    $Window = [Windows.Markup.XamlReader]::Load($Reader)
+} 
+catch {
+    Write-Error "Error building Xaml data.`n$_"
     exit
 }
 
-$Reader = New-Object System.Xml.XmlNodeReader $Xaml
-$Window = [Windows.Markup.XamlReader]::Load($Reader)
 $Xaml.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name ($_.Name) -Value $Window.FindName($_.Name) -Scope Script }
-
 
 $InitialDirectory   = "$([Environment]::GetFolderPath("MyDocuments"))"
 $FileFilter         = "Text files|*.txt|All Files|*.*"
@@ -52,6 +55,7 @@ function Open-File {
         $OpenFileDialog = New-Object Microsoft.Win32.OpenFileDialog
         $OpenFileDialog.initialDirectory = $initialDirectory
         $OpenFileDialog.filter = $Filter
+        # Examples of other common filters: "Word Documents|*.doc|Excel Worksheets|*.xls|PowerPoint Presentations|*.ppt |Office Files|*.doc;*.xls;*.ppt |All Files|*.*"
         $OpenFileDialog.ShowDialog() | Out-Null
         return $OpenFileDialog.filename
     }
