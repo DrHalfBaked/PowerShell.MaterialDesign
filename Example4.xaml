@@ -63,6 +63,18 @@
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="Status" FontSize="18" />
                             </DataGridTextColumn.Header>
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="Stopped">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="Running">
+                                            <Setter Property="Foreground" Value="Green" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+							</DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
                         <DataGridTextColumn  Binding="{Binding StartMode}" >
                             <DataGridTextColumn.Header>
