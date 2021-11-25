@@ -40,7 +40,7 @@ Function New-Snackbar {
     $Snackbar.MessageQueue = $MessageQueue
 }
 
-$Btn1.Add_Click({New-Snackbar -Snackbar $Snackbar1 -Text $TxtBox1.Text -ButtonCaption "OK"})
-$Btn2.Add_Click({New-Snackbar -Snackbar $Snackbar1 -Text $TxtBox1.Text})
+$Btn_ShowSnkBarNoHide.Add_Click({New-Snackbar -Snackbar $Snackbar1 -Text $TxtBox_SnkBarContent.Text -ButtonCaption "OK"})
+$Btn_ShowSnkBarAutoHide.Add_Click({New-Snackbar -Snackbar $Snackbar1 -Text $TxtBox_SnkBarContent.Text})
 
 $Window.ShowDialog() | out-null

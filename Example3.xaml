@@ -29,9 +29,9 @@
 
     <Grid>
         <StackPanel>        
-            <TextBox Name="TxtBox1" Width="200" Margin="0,15,0,0"/>
-            <Button Name="Btn1" Width="250" Content="Show Snackbar (No Hide)" Margin="0,15,0,0"/>
-            <Button Name="Btn2" Width="250" Content="Show Snackbar (Auto Hide)" Margin="0,15,0,0"/>
+            <TextBox Name="TxtBox_SnkBarContent" Width="200" Margin="0,15,0,0"/>
+            <Button Name="Btn_ShowSnkBarNoHide" Width="250" Content="Show Snackbar (No Hide)" Margin="0,15,0,0"/>
+            <Button Name="Btn_ShowSnkBarAutoHide" Width="250" Content="Show Snackbar (Auto Hide)" Margin="0,15,0,0"/>
         </StackPanel>
         <md:Snackbar Name="Snackbar1" Opacity="1"/>
     </Grid>
