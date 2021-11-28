@@ -58,10 +58,10 @@
                 <materialDesign:DrawerHost IsLeftDrawerOpen="False" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" OpenMode="Standard"
                     Name="DrawerHost" Height="800" Width="1200" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="1" Opacity="0.7">
                     <materialDesign:DrawerHost.LeftDrawerContent>
-                        <StackPanel Width="200">
+                        <StackPanel Width="240" >
                             <ToggleButton Name="TglBtn_CloseLeftDrawer" Style="{StaticResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Right" IsChecked="False" Margin="0,15,10,20" />
-                            <Button Name="LeftDrawerItem1" Margin="4" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Content="CLOSE THIS" />
-                            <Button Name="LeftDrawerItem2" Margin="4" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Content="CLOSE ALL" />
+                            <Button Name="LeftDrawer_Btn1" Margin="4,20,4,4" Width="200" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Content="Do something cool" />
+                            <Button Name="LeftDrawer_Btn2" Margin="4" Width="200" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Content="Do something awesome" />
                         </StackPanel>
                     </materialDesign:DrawerHost.LeftDrawerContent>
                 </materialDesign:DrawerHost>

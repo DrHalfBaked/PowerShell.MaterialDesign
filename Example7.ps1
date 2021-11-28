@@ -1,7 +1,7 @@
 ###########
 #  Learn how to build Material Design based PowerShell apps
 #  --------------------
-#  Example6: Tab Control (Navigation Rails)
+#  Example7: Navigation Rails with a left drawer and a right popup box
 #  --------------------
 #  Avi Coren (c)
 #  Blog     - https://avicoren.wixsite.com/powershell
@@ -42,11 +42,4 @@ $TglBtn_CloseLeftDrawer.Add_Click( {
 # I had to skip the OpenMode="Modal" drawer because DrawerClosing event does not work so the hamburger toggle cannot be change while clicking away. so I'm using OpenMode="Standard"
 
 
-
-<#
-IsLeftDrawerOpen="False"
-$DrawerHost
-$TglBtn_CloseLeftDrawer.IsChecked -eq $true
-
-#>
 $Window.ShowDialog() | out-null
