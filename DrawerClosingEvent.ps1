@@ -13,7 +13,7 @@
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignColors.dll")
 
 try {
-    [xml]$Xaml = (Get-content "$PSScriptRoot\DrawerClosingEvent2.xaml")
+    [xml]$Xaml = (Get-content "$PSScriptRoot\DrawerClosingEvent.xaml")
     $Reader = New-Object System.Xml.XmlNodeReader $Xaml
     $Window = [Windows.Markup.XamlReader]::Load($Reader)
 } 
