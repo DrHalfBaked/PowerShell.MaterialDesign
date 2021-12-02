@@ -4,6 +4,8 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     Name="MainWindow"
     Title="Examples"
+	Height="800"
+	Width="1200"
     Style="{DynamicResource MaterialDesignWindow}" 
     WindowStartupLocation="CenterScreen"
     ResizeMode="CanResize"

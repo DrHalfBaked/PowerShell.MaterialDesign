@@ -24,8 +24,6 @@ catch {
 
 $Xaml.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name ($_.Name) -Value $Window.FindName($_.Name) -Scope Script }
 
-$MainWindow.Height="800"
-$MainWindow.MaxHeight="800"
 
 $DrawerHost.add_DrawerOpened({
     $DrawerHost.Height = $MainWindow.Height  # Make the Drawer size the same as the window, so the Modal can fully cover it.
