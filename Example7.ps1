@@ -1,7 +1,7 @@
 ###########
 #  Learn how to build Material Design based PowerShell apps
 #  --------------------
-#  Example7: Navigation Rails with a left drawer and a right popup box
+#  Example7: Navigation Rails with a left Drawer and a right PopupBox
 #  --------------------
 #  Avi Coren (c)
 #  Blog     - https://avicoren.wixsite.com/powershell
@@ -24,22 +24,27 @@ catch {
 
 $Xaml.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name ($_.Name) -Value $Window.FindName($_.Name) -Scope Script }
 
+$MainWindow.Height="800"
+$MainWindow.MaxHeight="800"
 
-$TglBtn_OpenLeftDrawer.Add_Click( { 
-    if ($TglBtn_OpenLeftDrawer.IsChecked -eq $true) {
-        $DrawerHost.IsLeftDrawerOpen = $true
-        $TglBtn_CloseLeftDrawer.IsChecked = $true
-        $TglBtn_OpenLeftDrawer.Visibility="Hidden"
-    }
+$DrawerHost.add_DrawerOpened({
+    $DrawerHost.Height = $MainWindow.Height  # Make the Drawer size the same as the window, so the Modal can fully cover it.
+    $DrawerHost.Width = $MainWindow.Width
 })
-$TglBtn_CloseLeftDrawer.Add_Click( {
-    if ($TglBtn_CloseLeftDrawer.IsChecked -eq $false) {
-        $DrawerHost.IsLeftDrawerOpen = $false
-        $TglBtn_OpenLeftDrawer.IsChecked = $false
-        $TglBtn_OpenLeftDrawer.Visibility="Visible"
-    }
-})
-# I had to skip the OpenMode="Modal" drawer because DrawerClosing event does not work so the hamburger toggle cannot be change while clicking away. so I'm using OpenMode="Standard"
 
+[scriptblock]$OnClosingDrawer = {
+    $DrawerHost.IsLeftDrawerOpen = $false
+    $TglBtn_OpenLeftDrawer.IsChecked = $false
+    $TglBtn_OpenLeftDrawer.Visibility="Visible"
+}
+
+$DrawerHost.add_DrawerClosing($OnClosingDrawer)
+$TglBtn_CloseLeftDrawer.add_Click($OnClosingDrawer)
+
+$TglBtn_OpenLeftDrawer.add_Click({ 
+    $DrawerHost.IsLeftDrawerOpen = $true
+    $TglBtn_CloseLeftDrawer.IsChecked = $true
+    $TglBtn_OpenLeftDrawer.Visibility="Hidden"
+})
 
 $Window.ShowDialog() | out-null

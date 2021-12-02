@@ -4,8 +4,6 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     Name="MainWindow"
     Title="Examples"
-    Height="800"
-    Width="1200"
     Style="{DynamicResource MaterialDesignWindow}" 
     WindowStartupLocation="CenterScreen"
     ResizeMode="CanResize"
@@ -49,19 +47,24 @@
                             Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=materialDesign:PopupBox}, Path=Foreground}" />
                     </materialDesign:PopupBox.ToggleContent>
                     <ListBox>
-                        <ListBoxItem Name="PopUpItemSetting" Content="Settings" />
-                        <ListBoxItem Name="PopUpItemAbout" Content="About" />
-                        <ListBoxItem Name="PopUpItemExit" Content="Exit" />
+                        <ListBoxItem Name="PopUpItemSetting" Content="Settings" Style="{StaticResource MaterialDesignNavigationListBoxItem}" />
+                        <ListBoxItem Name="PopUpItemAbout" Content="About" Style="{StaticResource MaterialDesignNavigationPrimaryListBoxItem}"/>
+                        <ListBoxItem Name="PopUpItemExit" Content="Exit" Style="{StaticResource MaterialDesignNavigationAccentListBoxItem}"/>
                     </ListBox>
                 </materialDesign:PopupBox>
 
-                <materialDesign:DrawerHost IsLeftDrawerOpen="False" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" OpenMode="Standard"
-                    Name="DrawerHost" Height="800" Width="1200" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="1" Opacity="0.7">
+                <materialDesign:DrawerHost IsLeftDrawerOpen="False" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" OpenMode="Modal"
+                    Name="DrawerHost" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="1" Opacity="0.7">
                     <materialDesign:DrawerHost.LeftDrawerContent>
                         <StackPanel Width="240" >
                             <ToggleButton Name="TglBtn_CloseLeftDrawer" Style="{StaticResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Right" IsChecked="False" Margin="0,15,10,20" />
                             <Button Name="LeftDrawer_Btn1" Margin="4,20,4,4" Width="200" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Content="Do something cool" />
                             <Button Name="LeftDrawer_Btn2" Margin="4" Width="200" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Content="Do something awesome" />
+                            <ListBox>
+                                <ListBoxItem Name="LeftDrawer_ListItem1" Content="Settings" Style="{StaticResource MaterialDesignNavigationListBoxItem}" />
+                                <ListBoxItem Name="LeftDrawer_ListItem2" Content="About" Style="{StaticResource MaterialDesignNavigationPrimaryListBoxItem}" />
+                                <ListBoxItem Name="LeftDrawer_ListItem3" Content="Exit" Style="{StaticResource MaterialDesignNavigationAccentListBoxItem}"/>
+                            </ListBox>
                         </StackPanel>
                     </materialDesign:DrawerHost.LeftDrawerContent>
                 </materialDesign:DrawerHost>
