@@ -24,11 +24,17 @@ catch {
 
 $Xaml.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name ($_.Name) -Value $Window.FindName($_.Name) -Scope Script }
 
+# Make the Drawer size the same as the window, so the Modal can fully cover it. 
+# Do it both When drawer opens or window size is changing.
 
-$DrawerHost.add_DrawerOpened({
-    $DrawerHost.Height = $MainWindow.Height  # Make the Drawer size the same as the window, so the Modal can fully cover it.
+[scriptblock]$SyncDrawerSizeWithWindow = {
+    $DrawerHost.Height = $MainWindow.Height  
     $DrawerHost.Width = $MainWindow.Width
-})
+}
+
+$DrawerHost.add_DrawerOpened($SyncDrawerSizeWithWindow)
+
+$MainWindow.add_SizeChanged($SyncDrawerSizeWithWindow)
 
 [scriptblock]$OnClosingDrawer = {
     $DrawerHost.IsLeftDrawerOpen = $false
