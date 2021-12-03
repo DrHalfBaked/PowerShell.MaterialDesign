@@ -70,6 +70,35 @@
                                 <ListBoxItem Name="LeftDrawer_ListItem2" Content="Open File"  />
                                 <ListBoxItem Name="LeftDrawer_ListItem3" Content="Exit" />
                             </ListBox>
+				
+				<Separator Style="{StaticResource MaterialDesignDarkSeparator}"  />
+				
+				<StackPanel Orientation="Horizontal">
+					<TextBlock VerticalAlignment="Center">Light</TextBlock>
+					<ToggleButton Name="LeftDrawer_ThemeMode_TglBtn" />
+					<TextBlock VerticalAlignment="Center">Dark</TextBlock>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" PlacementMode="TopAndAlignCentres"
+				  	ToolTipService.Placement="Right" ToolTip="Primary Color">
+						<ListBox Name="LeftDrawer_PrimaryColor_LstBox" Background="{DynamicResource MaterialDesignPaper}">  
+					</materialDesign:PopupBox>
+					<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionAccentPopupBox}" PlacementMode="TopAndAlignCentres"
+				  		ToolTipService.Placement="Right" ToolTip="Accent Color">
+						<ListBox Name="LeftDrawer_SecondaryColor_LstBox" Background="{DynamicResource MaterialDesignPaper}">  
+					</materialDesign:PopupBox>
+					<StackPanel>
+						<Button Name="LeftDrawer_Theme_Apply_Btn" Height="30" Width="30" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"  Focusable="False" ToolTip="Save Settings">
+							<materialDesign:PackIcon Kind="ContentSaveOutline" Opacity="1" Focusable="False" Height="20" Width="20"/>
+						</Button>
+						<Button Name="LeftDrawer_Theme_Undo_Btn" Height="30" Width="30" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"  Focusable="False" ToolTip="Undo Changes">
+							<materialDesign:PackIcon Kind="Undo" Opacity=".85" IsEnabled="True" Focusable="False" Height="20" Width="20"/>
+						</Button>
+					</StackPanel>
+				</StackPanel>
+				
+				<Separator Style="{StaticResource MaterialDesignDarkSeparator}"  />
+				
                         </StackPanel>
                     </materialDesign:DrawerHost.LeftDrawerContent>
                 </materialDesign:DrawerHost>
