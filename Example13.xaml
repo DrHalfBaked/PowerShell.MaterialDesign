@@ -1,0 +1,125 @@
+<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    Name="MainWindow"
+    Title="Examples"
+	Height="800"
+	Width="1200"
+    Style="{DynamicResource MaterialDesignWindow}" 
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="CanResize"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.FontSize="14"
+    TextElement.FontFamily="Roboto"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    Background="{DynamicResource MaterialDesignPaper}" >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.BlueGrey.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.DeepOrange.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+    
+        <Grid Name="OverlayLayer" Panel.ZIndex="1000" Visibility="Visible">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                
+                <ToggleButton Name="TglBtn_OpenLeftDrawer" Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  Width="25" Height="25" />
+                
+                <materialDesign:PopupBox Grid.Row="0" Grid.Column="2" PlacementMode="BottomAndAlignRightEdges" Style="{StaticResource MaterialDesignToolForegroundPopupBox}">
+                    <materialDesign:PopupBox.ToggleContent>
+                        <materialDesign:PackIcon Kind="DotsVertical" Margin="4,0,4,0" Width="25" Height="25" Foreground="{StaticResource MaterialDesignBody}" />
+                    </materialDesign:PopupBox.ToggleContent>
+                    <ListBox>
+                        <ListBoxItem Name="PopUpItemSetting" Content="Add" Style="{StaticResource MaterialDesignListBoxItem}" />
+                        <ListBoxItem Name="PopUpItemAbout" Content="Delete" Style="{StaticResource MaterialDesignListBoxItem}"/>
+                        <ListBoxItem Name="PopUpItemExit" Content="Move" Style="{StaticResource MaterialDesignListBoxItem}"/>
+                    </ListBox>
+                </materialDesign:PopupBox>
+                <materialDesign:DrawerHost IsLeftDrawerOpen="False" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" OpenMode="Modal"
+                    Name="DrawerHost" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="1" Opacity="1">
+                    <materialDesign:DrawerHost.LeftDrawerContent>
+                        <StackPanel Width="180" >
+                            <ToggleButton Name="TglBtn_CloseLeftDrawer" Style="{StaticResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Right" IsChecked="False" Width="25" Height="25" Margin="0,3,10,20" />
+                            <ListBox Name="LeftDrawerListBox1">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                        <Setter Property="FontWeight" Value="Medium" />
+                                        <Setter Property="FontSize" Value="16" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBoxItem Name="LeftDrawer_ListItem1" Content="Settings" />
+                                <ListBoxItem Name="LeftDrawer_ListItem2" Content="Open File"  />
+                                <ListBoxItem Name="LeftDrawer_ListItem3" Content="Exit" />
+                            </ListBox>
+                        </StackPanel>
+                    </materialDesign:DrawerHost.LeftDrawerContent>
+                </materialDesign:DrawerHost>
+            </Grid>
+            <materialDesign:Snackbar Name="Snackbar1" Opacity="1" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        </Grid>
+
+        <TabControl Name="NavRail" Style="{StaticResource MaterialDesignNavigatilRailTabControl}" TabStripPlacement="Top"
+            materialDesign:ShadowAssist.ShadowDepth="Depth3" 
+            materialDesign:ColorZoneAssist.Mode="PrimaryLight"
+            materialDesign:NavigationRailAssist.ShowSelectionBackground="True">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource MaterialDesignNavigationRailTabItem}">
+                    <Setter Property="Width" Value="90" />
+                    <Setter Property="Height" Value="30" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+            </TabControl.ItemContainerStyle>
+            <materialDesign:NavigationRailAssist.FloatingContent>  
+                <TextBlock Name="ImJustPushingTheHeaderToTheRight" Width="50" Visibility="Hidden" />
+            </materialDesign:NavigationRailAssist.FloatingContent>
+            <TabItem Name="Computers">
+                <TabItem.Header>
+                    <TextBlock Text="Computers"  />
+                </TabItem.Header>
+                <TextBlock Text="Computers Page"  VerticalAlignment="Center" FontSize="30"/>
+            </TabItem>
+            <TabItem Name="Domains">
+                <TabItem.Header>
+                    <TextBlock Text="Domains"  />
+                </TabItem.Header>
+                <TextBlock Text="Domains Page"  VerticalAlignment="Center" FontSize="30"/>
+            </TabItem>
+            <TabItem Name="Users">
+                <TabItem.Header>
+                    <TextBlock Text="Users" />
+                </TabItem.Header>
+                <TextBlock Text="Users Page"  VerticalAlignment="Center" FontSize="30"/>
+            </TabItem>
+            <TabItem Name="Printers">
+                <TabItem.Header>
+                    <TextBlock Text="Printers"  />
+                </TabItem.Header>
+                <TextBlock Text="Printers Page"  VerticalAlignment="Center" FontSize="30"/>
+            </TabItem>
+            <TabItem Name="Settings" Visibility="Collapsed">
+                <TextBlock Text="Settings Page"  VerticalAlignment="Center" FontSize="30"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
+© 2021 GitHub, Inc.
