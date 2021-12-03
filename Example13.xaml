@@ -43,7 +43,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <ToggleButton Name="TglBtn_OpenLeftDrawer" Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  Width="25" Height="25" />
-                
+
                 <materialDesign:PopupBox Grid.Row="0" Grid.Column="2" PlacementMode="BottomAndAlignRightEdges" Style="{StaticResource MaterialDesignToolForegroundPopupBox}">
                     <materialDesign:PopupBox.ToggleContent>
                         <materialDesign:PackIcon Kind="DotsVertical" Margin="4,0,4,0" Width="25" Height="25" Foreground="{StaticResource MaterialDesignBody}" />
@@ -70,35 +70,31 @@
                                 <ListBoxItem Name="LeftDrawer_ListItem2" Content="Open File"  />
                                 <ListBoxItem Name="LeftDrawer_ListItem3" Content="Exit" />
                             </ListBox>
-				
 				<Separator Style="{StaticResource MaterialDesignDarkSeparator}"  />
-				
-				<StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
 					<TextBlock VerticalAlignment="Center">Light</TextBlock>
 					<ToggleButton Name="LeftDrawer_ThemeMode_TglBtn" />
 					<TextBlock VerticalAlignment="Center">Dark</TextBlock>
 				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" PlacementMode="TopAndAlignCentres"
-				  	ToolTipService.Placement="Right" ToolTip="Primary Color">
-						<ListBox Name="LeftDrawer_PrimaryColor_LstBox" Background="{DynamicResource MaterialDesignPaper}">  
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+					<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" PlacementMode="TopAndAlignCentres" Margin="3"
+				  	ToolTipService.Placement="Top" ToolTip="Primary Color">
+						<ListBox Name="LeftDrawer_PrimaryColor_LstBox" Background="{DynamicResource MaterialDesignPaper}" />  
 					</materialDesign:PopupBox>
-					<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionAccentPopupBox}" PlacementMode="TopAndAlignCentres"
-				  		ToolTipService.Placement="Right" ToolTip="Accent Color">
-						<ListBox Name="LeftDrawer_SecondaryColor_LstBox" Background="{DynamicResource MaterialDesignPaper}">  
+					<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionAccentPopupBox}" PlacementMode="TopAndAlignCentres" Margin="3"
+				  		ToolTipService.Placement="Top" ToolTip="Accent Color">
+						<ListBox Name="LeftDrawer_SecondaryColor_LstBox" Background="{DynamicResource MaterialDesignPaper}" />  
 					</materialDesign:PopupBox>
 					<StackPanel>
-						<Button Name="LeftDrawer_Theme_Apply_Btn" Height="30" Width="30" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"  Focusable="False" ToolTip="Save Settings">
+						<Button Name="LeftDrawer_Theme_Apply_Btn" Height="30" Width="30" Style="{DynamicResource MaterialDesignFloatingActionLightButton}" Focusable="False" ToolTip="Save Settings" Margin="3,0,0,3" >
 							<materialDesign:PackIcon Kind="ContentSaveOutline" Opacity="1" Focusable="False" Height="20" Width="20"/>
 						</Button>
-						<Button Name="LeftDrawer_Theme_Undo_Btn" Height="30" Width="30" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"  Focusable="False" ToolTip="Undo Changes">
-							<materialDesign:PackIcon Kind="Undo" Opacity=".85" IsEnabled="True" Focusable="False" Height="20" Width="20"/>
+						<Button Name="LeftDrawer_Theme_Undo_Btn" Height="30" Width="30" Style="{DynamicResource MaterialDesignFloatingActionLightButton}" Focusable="False" ToolTip="Undo Changes" Margin="3,3,0,0" >
+							<materialDesign:PackIcon Kind="Undo" Opacity="1" IsEnabled="True" Focusable="False" Height="20" Width="20"/>
 						</Button>
 					</StackPanel>
 				</StackPanel>
-				
 				<Separator Style="{StaticResource MaterialDesignDarkSeparator}"  />
-				
                         </StackPanel>
                     </materialDesign:DrawerHost.LeftDrawerContent>
                 </materialDesign:DrawerHost>
@@ -151,4 +147,3 @@
         </TabControl>
     </Grid>
 </Window>
-© 2021 GitHub, Inc.
