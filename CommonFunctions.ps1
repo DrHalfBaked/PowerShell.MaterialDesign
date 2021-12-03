@@ -8,7 +8,7 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 3, 2021  14:41
+#  Last file update:  Dec 4, 2021  01:23
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
@@ -85,7 +85,7 @@ function Get-SaveFilePath {
     )
     try {
         $SaveFileDialog = [Microsoft.Win32.SaveFileDialog]::New()
-        $SaveFileDialog.initialDirectory = $initialDirectory
+        $SaveFileDialog.initialDirectory = $InitialDirectory
         $SaveFileDialog.filter = $Filter
         $SaveFileDialog.CreatePrompt = $False;
         $SaveFileDialog.OverwritePrompt = $True;
@@ -104,7 +104,7 @@ function Get-OpenFilePath {
     )
     try{
         $OpenFileDialog = [Microsoft.Win32.OpenFileDialog]::New()
-        $OpenFileDialog.initialDirectory = $initialDirectory
+        $OpenFileDialog.initialDirectory = $InitialDirectory
         $OpenFileDialog.filter = $Filter
         # Examples of other common filters: "Word Documents|*.doc|Excel Worksheets|*.xls|PowerPoint Presentations|*.ppt |Office Files|*.doc;*.xls;*.ppt |All Files|*.*"
         $OpenFileDialog.ShowDialog() | Out-Null
@@ -114,3 +114,26 @@ function Get-OpenFilePath {
         Throw "Open-File Error $_"
     }
 } 
+
+function Open-ConfigurationFile {
+    param(
+        $Path
+    )
+    try {
+        [xml]$ConfigXML = (Get-content $Path)
+        return $ConfigXML
+    } catch {
+        Write-error "$Path file not found or not valid"
+        return
+    }
+}
+
+function Add-ItemToUIControl {
+    param(
+        $UIControl,
+        $ItemToAdd
+    )
+    foreach ($Item in $ItemToAdd) {
+        [void] $UIControl.Items.Add($Item)
+    }
+}
