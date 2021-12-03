@@ -51,7 +51,12 @@ $LeftDrawer_ListItem3.add_Selected({
     $Window.Close()
 })
 
-$NavRail.add_SelectionChanged({ New-Snackbar -Snackbar $Snackbar1 -Text "You selected the $(Get-NavigationRailSelectedTabName -NavigationRail $NavRail) page" })
-$LeftDrawerListBox1.add_SelectionChanged({ $LeftDrawerListBox1.SelectedIndex = -1 })
+$NavRail.add_SelectionChanged({ 
+    New-Snackbar -Snackbar $Snackbar1 -Text "You selected the $(Get-NavigationRailSelectedTabName -NavigationRail $NavRail) page" 
+})
+
+$LeftDrawerListBox1.add_SelectionChanged({ 
+    $LeftDrawerListBox1.SelectedIndex = -1 
+})
 
 $Window.ShowDialog() | out-null
