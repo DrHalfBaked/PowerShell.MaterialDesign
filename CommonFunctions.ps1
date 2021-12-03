@@ -84,7 +84,7 @@ function Get-SaveFilePath {
         [string] $Filter
     )
     try {
-        $SaveFileDialog = New-Object Microsoft.Win32.SaveFileDialog
+        $SaveFileDialog = [Microsoft.Win32.SaveFileDialog]::New()
         $SaveFileDialog.initialDirectory = $initialDirectory
         $SaveFileDialog.filter = $Filter
         $SaveFileDialog.CreatePrompt = $False;
@@ -103,7 +103,7 @@ function Get-OpenFilePath {
         [string] $Filter
     )
     try{
-        $OpenFileDialog = New-Object Microsoft.Win32.OpenFileDialog
+        $OpenFileDialog = [Microsoft.Win32.OpenFileDialog]::New()
         $OpenFileDialog.initialDirectory = $initialDirectory
         $OpenFileDialog.filter = $Filter
         # Examples of other common filters: "Word Documents|*.doc|Excel Worksheets|*.xls|PowerPoint Presentations|*.ppt |Office Files|*.doc;*.xls;*.ppt |All Files|*.*"
