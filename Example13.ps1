@@ -31,10 +31,14 @@ $LeftDrawer_ThemeMode_TglBtn.IsChecked = if((Get-ThemeMode -Window $Window) -eq 
         $MainWindow.Width =  [System.Windows.SystemParameters]::VirtualScreenWidth
         # The virtual screen is the bounding rectangle of all display monitors
         # It will make sure the window size is big enough to cover all monitors sizes
+        # This causes the bottom part of the window to be behind the task bar.
+        $LeftDrawer_Grid.RowDefinitions[3].Height = 240
+        # Raising the Theme settings controls (left drawer) above the task bar.
     }
     elseif ($MainWindow.WindowState -eq "Normal") {
         $MainWindow.Height = $RestoreWindowHeight
         $MainWindow.Width  = $RestoreWindowWidth
+        $LeftDrawer_Grid.RowDefinitions[3].Height = 160
     } 
 } 
 
