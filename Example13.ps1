@@ -11,19 +11,32 @@
 Get-ChildItem -Path $PSScriptRoot -Filter Common*.PS1 | ForEach-Object {. ($_.FullName)}
 
 $Window = New-Window -XamlFile "$PSScriptRoot\Example13.xaml"
-
-$ConfigXML = Open-ConfigurationFile -Path "$PSScriptRoot\Example.config"
+$ConfigFilePath = "$PSScriptRoot\Example.config"
+$ConfigXML = Open-ConfigurationFile -Path $ConfigFilePath
 
 Set-Theme -Window $Window -PrimaryColor $ConfigXML.Parameters.Settings.Appearance.PrimaryColor -SecondaryColor $ConfigXML.Parameters.Settings.Appearance.SecondaryColor -ThemeMode $ConfigXML.Parameters.Settings.Appearance.Mode
-
-Add-ItemToUIControl -UIControl $LeftDrawer_PrimaryColor_LstBox   -ItemToAdd $Script:ThemePrimaryColors
-Add-ItemToUIControl -UIControl $LeftDrawer_SecondaryColor_LstBox -ItemToAdd $Script:ThemeSecondaryColors
-
+Add-ItemToUIControl -UIControl $LeftDrawer_PrimaryColor_LstBox   -ItemToAdd $ThemePrimaryColors
+Add-ItemToUIControl -UIControl $LeftDrawer_SecondaryColor_LstBox -ItemToAdd $ThemeSecondaryColors
+$LeftDrawer_Chip_Img.Source = "$PSScriptRoot\Resources\Images\mr_bean_tiny.jpg"
+$LeftDrawer_ThemeMode_TglBtn.IsChecked = if((Get-ThemeMode -Window $Window) -eq "Dark") {$true} else {$false}
 
 [scriptblock]$SyncDrawerSizeWithWindow = {
     $DrawerHost.Height = $MainWindow.Height  
     $DrawerHost.Width = $MainWindow.Width
 }
+
+ [scriptblock]$OnWindowStateChanged = {
+    if ($MainWindow.WindowState -eq "Maximized"){
+        $MainWindow.Height = [System.Windows.SystemParameters]::VirtualScreenHeight 
+        $MainWindow.Width =  [System.Windows.SystemParameters]::VirtualScreenWidth
+        # The virtual screen is the bounding rectangle of all display monitors
+        # It will make sure the window size is big enough to cover all monitors sizes
+    }
+    elseif ($MainWindow.WindowState -eq "Normal") {
+        $MainWindow.Height = $RestoreWindowHeight
+        $MainWindow.Width = $RestoreWindowWidth
+    } 
+} 
 
 [scriptblock]$OnClosingLeftDrawer = {
     $DrawerHost.IsLeftDrawerOpen = $false
@@ -31,14 +44,15 @@ Add-ItemToUIControl -UIControl $LeftDrawer_SecondaryColor_LstBox -ItemToAdd $Scr
     $TglBtn_OpenLeftDrawer.Visibility="Visible"
 }
 
-[scriptblock]$OnLeftDrawerOpen = {
-    $SyncDrawerSizeWithWindow
-}
 
+$MainWindow.Add_Loaded({
+    $Script:RestoreWindowWidth  = $MainWindow.Width
+    $Script:RestoreWindowHeight = $MainWindow.Height
+})
 $MainWindow.add_SizeChanged($SyncDrawerSizeWithWindow)
+$MainWindow.add_StateChanged($OnWindowStateChanged)
 
-$DrawerHost.add_DrawerOpened($OnLeftDrawerOpen)
-
+$DrawerHost.add_DrawerOpened($SyncDrawerSizeWithWindow)
 $DrawerHost.add_DrawerClosing($OnClosingLeftDrawer)
 
 $TglBtn_CloseLeftDrawer.add_Click($OnClosingLeftDrawer)
@@ -72,7 +86,6 @@ $NavRail.add_SelectionChanged({
     New-Snackbar -Snackbar $Snackbar1 -Text "You selected the $(Get-NavigationRailSelectedTabName -NavigationRail $NavRail) page" 
 })
 
-
 $LeftDrawer_ThemeMode_TglBtn.Add_Click({ 
         $ThemeMode = if ($LeftDrawer_ThemeMode_TglBtn.IsChecked -eq $true) {"Dark"} else {"Light"}
         Set-Theme -Window $Window -ThemeMode $ThemeMode
@@ -104,38 +117,32 @@ $LeftDrawer_Theme_Undo_Btn.Add_Click( {
 $LeftDrawer_Theme_Apply_Btn.Add_Click( {
 
     $IsChanged = $false
-
-    if (($Settings_PrimaryColor_CmbBox.SelectedValue) -and $ConfigXML.Parameters.Settings.Appearance.PrimaryColor -ne $Settings_PrimaryColor_CmbBox.SelectedValue) {
+    if (($LeftDrawer_PrimaryColor_LstBox.SelectedValue) -and $ConfigXML.Parameters.Settings.Appearance.PrimaryColor -ne $LeftDrawer_PrimaryColor_LstBox.SelectedValue) {
         $IsChanged = $true
-        $ConfigXML.Parameters.Settings.Appearance.PrimaryColor  =  $Settings_PrimaryColor_CmbBox.SelectedValue
+        $ConfigXML.Parameters.Settings.Appearance.PrimaryColor = $LeftDrawer_PrimaryColor_LstBox.SelectedValue
     }
-
-    if (($Settings_SecondaryColor_CmbBox.SelectedValue) -and $ConfigXML.Parameters.Settings.Appearance.SecondaryColor -ne $Settings_SecondaryColor_CmbBox.SelectedValue) {
+    if (($LeftDrawer_SecondaryColor_LstBox.SelectedValue) -and $ConfigXML.Parameters.Settings.Appearance.SecondaryColor -ne $LeftDrawer_SecondaryColor_LstBox.SelectedValue) {
         $IsChanged = $true
-        $ConfigXML.Parameters.Settings.Appearance.SecondaryColor  =  $Settings_SecondaryColor_CmbBox.SelectedValue
+        $ConfigXML.Parameters.Settings.Appearance.SecondaryColor = $LeftDrawer_SecondaryColor_LstBox.SelectedValue
     }
-
-    if (($ConfigXML.Parameters.Settings.Appearance.Mode -eq "Light") -and ($Settings_ThemeMode_TglBtn.IsChecked)) {
+    if (($ConfigXML.Parameters.Settings.Appearance.Mode -eq "Light") -and ($LeftDrawer_ThemeMode_TglBtn.IsChecked)) {
         $IsChanged = $true
-        $ConfigXML.Parameters.Settings.Appearance.Mode  =  "Dark"
+        $ConfigXML.Parameters.Settings.Appearance.Mode = "Dark"
     }
-
-    if (($ConfigXML.Parameters.Settings.Appearance.Mode -eq "Dark") -and (!$Settings_ThemeMode_TglBtn.IsChecked)) {
+    if (($ConfigXML.Parameters.Settings.Appearance.Mode -eq "Dark") -and (!$LeftDrawer_ThemeMode_TglBtn.IsChecked)) {
         $IsChanged = $true
-        $ConfigXML.Parameters.Settings.Appearance.Mode  =  "Light"
+        $ConfigXML.Parameters.Settings.Appearance.Mode = "Light"
     }
-
     if ($IsChanged) {
         try {
-            $ConfigXML.Save("$PSScriptRoot\YAIFS.config")
-            Open-MessageBox -Type Information -Text "Settings were successfully saved"
+            $ConfigXML.Save($ConfigFilePath)
+            New-Snackbar -Snackbar $Snackbar1 -Text "The theme was successfully saved"
         }
         catch {
-            Open-MessageBox -Type Error -Text $_[0]
+            New-Snackbar -Snackbar $Snackbar1 -Text  $_[0] -ButtonCaption "OK"
             return
         }
-    }
-    
+    }  
 })
 
 

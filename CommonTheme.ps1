@@ -8,13 +8,13 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 4, 2021  01:23
+#  Last file update:  Dec 4, 2021  09:13
 #
 
-[System.Collections.ArrayList]$Script:ThemePrimaryColors = [System.Enum]::GetNames([MaterialDesignColors.PrimaryColor])
-$Script:ThemePrimaryColors.Sort()
-[System.Collections.ArrayList]$Script:ThemeSecondaryColors = [System.Enum]::GetNames([MaterialDesignColors.SecondaryColor])
-$Script:ThemeSecondaryColors.Sort()
+[System.Collections.ArrayList]$ThemePrimaryColors = [System.Enum]::GetNames([MaterialDesignColors.PrimaryColor])
+$ThemePrimaryColors.Sort()
+[System.Collections.ArrayList]$ThemeSecondaryColors = [System.Enum]::GetNames([MaterialDesignColors.SecondaryColor])
+$ThemeSecondaryColors.Sort()
 
 
 function  Set-Theme {

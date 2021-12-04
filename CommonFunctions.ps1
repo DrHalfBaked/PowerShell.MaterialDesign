@@ -8,7 +8,7 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 4, 2021  01:23
+#  Last file update:  Dec 4, 2021  09:13
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
@@ -96,7 +96,6 @@ function Get-SaveFilePath {
         Throw "Save-File Error $_"
     }
 } 
-
 function Get-OpenFilePath {
     Param (
         [string] $InitialDirectory,
