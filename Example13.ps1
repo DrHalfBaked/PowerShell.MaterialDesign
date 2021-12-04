@@ -14,7 +14,7 @@ $Window = New-Window -XamlFile "$PSScriptRoot\Example13.xaml"
 $ConfigFilePath = "$PSScriptRoot\Example.config"
 $ConfigXML = Open-ConfigurationFile -Path $ConfigFilePath
 
-Set-Theme -Window $Window -PrimaryColor $ConfigXML.Parameters.Settings.Appearance.PrimaryColor -SecondaryColor $ConfigXML.Parameters.Settings.Appearance.SecondaryColor -ThemeMode $ConfigXML.Parameters.Settings.Appearance.Mode
+Set-Theme -Window $Window -PrimaryColor $ConfigXML.Parameters.Settings.Theme.PrimaryColor -SecondaryColor $ConfigXML.Parameters.Settings.Theme.SecondaryColor -ThemeMode $ConfigXML.Parameters.Settings.Theme.Mode
 Add-ItemToUIControl -UIControl $LeftDrawer_PrimaryColor_LstBox   -ItemToAdd $ThemePrimaryColors
 Add-ItemToUIControl -UIControl $LeftDrawer_SecondaryColor_LstBox -ItemToAdd $ThemeSecondaryColors
 $LeftDrawer_Chip_Img.Source = "$PSScriptRoot\Resources\Images\mr_bean_tiny.jpg"
@@ -108,30 +108,30 @@ $LeftDrawer_SecondaryColor_LstBox.Add_SelectionChanged( {
 })   
 
 $LeftDrawer_Theme_Undo_Btn.Add_Click( {
-    Set-Theme -Window $Window -PrimaryColor $ConfigXML.Parameters.Settings.Appearance.PrimaryColor -SecondaryColor $ConfigXML.Parameters.Settings.Appearance.SecondaryColor -ThemeMode $ConfigXML.Parameters.Settings.Appearance.Mode
+    Set-Theme -Window $Window -PrimaryColor $ConfigXML.Parameters.Settings.Theme.PrimaryColor -SecondaryColor $ConfigXML.Parameters.Settings.Theme.SecondaryColor -ThemeMode $ConfigXML.Parameters.Settings.Theme.Mode
     $LeftDrawer_ThemeMode_TglBtn.IsChecked = if((Get-ThemeMode -Window $Window) -eq "Dark") {$true} else {$false}
-    $LeftDrawer_PrimaryColor_LstBox.SelectedIndex = $ThemePrimaryColors.indexof($ConfigXML.Parameters.Settings.Appearance.PrimaryColor)
-    $LeftDrawer_SecondaryColor_LstBox.SelectedIndex = $ThemeSecondaryColors.indexof($ConfigXML.Parameters.Settings.Appearance.SecondaryColor)
+    $LeftDrawer_PrimaryColor_LstBox.SelectedIndex = $ThemePrimaryColors.indexof($ConfigXML.Parameters.Settings.Theme.PrimaryColor)
+    $LeftDrawer_SecondaryColor_LstBox.SelectedIndex = $ThemeSecondaryColors.indexof($ConfigXML.Parameters.Settings.Theme.SecondaryColor)
 })
 
 $LeftDrawer_Theme_Apply_Btn.Add_Click( {
 
     $IsChanged = $false
-    if (($LeftDrawer_PrimaryColor_LstBox.SelectedValue) -and $ConfigXML.Parameters.Settings.Appearance.PrimaryColor -ne $LeftDrawer_PrimaryColor_LstBox.SelectedValue) {
+    if (($LeftDrawer_PrimaryColor_LstBox.SelectedValue) -and $ConfigXML.Parameters.Settings.Theme.PrimaryColor -ne $LeftDrawer_PrimaryColor_LstBox.SelectedValue) {
         $IsChanged = $true
-        $ConfigXML.Parameters.Settings.Appearance.PrimaryColor = $LeftDrawer_PrimaryColor_LstBox.SelectedValue
+        $ConfigXML.Parameters.Settings.Theme.PrimaryColor = $LeftDrawer_PrimaryColor_LstBox.SelectedValue
     }
-    if (($LeftDrawer_SecondaryColor_LstBox.SelectedValue) -and $ConfigXML.Parameters.Settings.Appearance.SecondaryColor -ne $LeftDrawer_SecondaryColor_LstBox.SelectedValue) {
+    if (($LeftDrawer_SecondaryColor_LstBox.SelectedValue) -and $ConfigXML.Parameters.Settings.Theme.SecondaryColor -ne $LeftDrawer_SecondaryColor_LstBox.SelectedValue) {
         $IsChanged = $true
-        $ConfigXML.Parameters.Settings.Appearance.SecondaryColor = $LeftDrawer_SecondaryColor_LstBox.SelectedValue
+        $ConfigXML.Parameters.Settings.Theme.SecondaryColor = $LeftDrawer_SecondaryColor_LstBox.SelectedValue
     }
-    if (($ConfigXML.Parameters.Settings.Appearance.Mode -eq "Light") -and ($LeftDrawer_ThemeMode_TglBtn.IsChecked)) {
+    if (($ConfigXML.Parameters.Settings.Theme.Mode -eq "Light") -and ($LeftDrawer_ThemeMode_TglBtn.IsChecked)) {
         $IsChanged = $true
-        $ConfigXML.Parameters.Settings.Appearance.Mode = "Dark"
+        $ConfigXML.Parameters.Settings.Theme.Mode = "Dark"
     }
-    if (($ConfigXML.Parameters.Settings.Appearance.Mode -eq "Dark") -and (!$LeftDrawer_ThemeMode_TglBtn.IsChecked)) {
+    if (($ConfigXML.Parameters.Settings.Theme.Mode -eq "Dark") -and (!$LeftDrawer_ThemeMode_TglBtn.IsChecked)) {
         $IsChanged = $true
-        $ConfigXML.Parameters.Settings.Appearance.Mode = "Light"
+        $ConfigXML.Parameters.Settings.Theme.Mode = "Light"
     }
     if ($IsChanged) {
         try {
