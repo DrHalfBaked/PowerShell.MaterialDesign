@@ -34,14 +34,14 @@ $LeftDrawer_ThemeMode_TglBtn.IsChecked = if((Get-ThemeMode -Window $Window) -eq 
     }
     elseif ($MainWindow.WindowState -eq "Normal") {
         $MainWindow.Height = $RestoreWindowHeight
-        $MainWindow.Width = $RestoreWindowWidth
+        $MainWindow.Width  = $RestoreWindowWidth
     } 
 } 
 
 [scriptblock]$OnClosingLeftDrawer = {
     $DrawerHost.IsLeftDrawerOpen = $false
-    $TglBtn_OpenLeftDrawer.IsChecked = $false
-    $TglBtn_OpenLeftDrawer.Visibility="Visible"
+    $LeftDrawer_Open_TglBtn.IsChecked = $false
+    $LeftDrawer_Open_TglBtn.Visibility="Visible"
 }
 
 
@@ -55,30 +55,30 @@ $MainWindow.add_StateChanged($OnWindowStateChanged)
 $DrawerHost.add_DrawerOpened($SyncDrawerSizeWithWindow)
 $DrawerHost.add_DrawerClosing($OnClosingLeftDrawer)
 
-$TglBtn_CloseLeftDrawer.add_Click($OnClosingLeftDrawer)
+$LeftDrawer_Close_TglBtn.add_Click($OnClosingLeftDrawer)
 
-$TglBtn_OpenLeftDrawer.add_Click({ 
+$LeftDrawer_Open_TglBtn.add_Click({ 
     $DrawerHost.IsLeftDrawerOpen = $true
-    $TglBtn_CloseLeftDrawer.IsChecked = $true
-    $TglBtn_OpenLeftDrawer.Visibility="Hidden"
+    $LeftDrawer_Close_TglBtn.IsChecked = $true
+    $LeftDrawer_Open_TglBtn.Visibility="Hidden"
 })
 
-$LeftDrawerListBox1.add_SelectionChanged({ 
-    $LeftDrawerListBox1.SelectedIndex = -1 
+$LeftDrawer_Menu_LstBox.add_SelectionChanged({ 
+    $LeftDrawer_Menu_LstBox.SelectedIndex = -1 
 })
 
-$LeftDrawer_ListItem1.add_Selected({
+$LeftDrawer_Menu_ListItem1.add_Selected({
     Set-NavigationRailTab -NavigationRail $NavRail -TabName "Settings"
 })
 
-$LeftDrawer_ListItem2.add_Selected({
+$LeftDrawer_Menu_ListItem2.add_Selected({
     $OpeneFilePath = Get-OpenFilePath -InitialDirectory $InitialDirectory  -Filter $FileFilter 
     if ($OpeneFilePath) {
         New-Snackbar -Snackbar $Snackbar1 -Text "You selected $OpeneFilePath"
     }
 })
 
-$LeftDrawer_ListItem3.add_Selected({
+$LeftDrawer_Menu_ListItem3.add_Selected({
     $Window.Close()
 })
 
@@ -136,7 +136,7 @@ $LeftDrawer_Theme_Apply_Btn.Add_Click( {
     if ($IsChanged) {
         try {
             $ConfigXML.Save($ConfigFilePath)
-            New-Snackbar -Snackbar $Snackbar1 -Text "The theme was successfully saved"
+            New-Snackbar -Snackbar $Snackbar1 -Text "Theme was successfully saved"
         }
         catch {
             New-Snackbar -Snackbar $Snackbar1 -Text  $_[0] -ButtonCaption "OK"

@@ -42,11 +42,11 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
                 
-                <ToggleButton Name="TglBtn_OpenLeftDrawer" Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  Width="25" Height="25" />
+                <ToggleButton Name="LeftDrawer_Open_TglBtn" Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  Width="25" Height="25" />
 
                 <materialDesign:PopupBox Grid.Row="0" Grid.Column="2" PlacementMode="BottomAndAlignRightEdges" Style="{StaticResource MaterialDesignToolForegroundPopupBox}">
                     <materialDesign:PopupBox.ToggleContent>
-                        <materialDesign:PackIcon Kind="DotsVertical" Margin="4,0,4,0" Width="25" Height="25" Foreground="{StaticResource MaterialDesignBody}" />
+                        <materialDesign:PackIcon Kind="DotsVertical" Margin="4,0,4,0" Width="25" Height="25" />
                     </materialDesign:PopupBox.ToggleContent>
                     <ListBox>
                         <ListBoxItem Name="PopUpItemSetting" Content="Add" Style="{StaticResource MaterialDesignListBoxItem}" />
@@ -57,50 +57,58 @@
                 <materialDesign:DrawerHost IsLeftDrawerOpen="False" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" OpenMode="Modal"
                     Name="DrawerHost" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="1" Opacity="1">
                     <materialDesign:DrawerHost.LeftDrawerContent>
-                        <StackPanel Width="180" >
-                            <ToggleButton Name="TglBtn_CloseLeftDrawer" Style="{StaticResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Right" IsChecked="False" Width="25" Height="25" Margin="0,3,10,20" />
-                            <materialDesign:Chip Content="Mr. Bean" HorizontalAlignment="Center">
+                        <Grid Width="180">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="200" />
+                            </Grid.RowDefinitions>
+                            <ToggleButton Name="LeftDrawer_Close_TglBtn" Grid.Row="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Right" IsChecked="False" Width="25" Height="25" Margin="0,3,10,0" />
+                            <materialDesign:Chip Content="Mr. Bean" Grid.Row="1" HorizontalAlignment="Center">
                                 <materialDesign:Chip.Icon>
                                     <Image Name="LeftDrawer_Chip_Img"/>
                                 </materialDesign:Chip.Icon>
                             </materialDesign:Chip>
-                            <ListBox Name="LeftDrawerListBox1">
+                            <ListBox Name="LeftDrawer_Menu_LstBox" Grid.Row="2">
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
                                         <Setter Property="FontWeight" Value="Medium" />
                                         <Setter Property="FontSize" Value="16" />
                                     </Style>
                                 </ListBox.ItemContainerStyle>
-                                <ListBoxItem Name="LeftDrawer_ListItem1" Content="Settings" />
-                                <ListBoxItem Name="LeftDrawer_ListItem2" Content="Open File"  />
-                                <ListBoxItem Name="LeftDrawer_ListItem3" Content="Exit" />
+                                <ListBoxItem Name="LeftDrawer_Menu_ListItem1" Content="Settings" />
+                                <ListBoxItem Name="LeftDrawer_Menu_ListItem2" Content="Open File"  />
+                                <ListBoxItem Name="LeftDrawer_Menu_ListItem3" Content="Exit" />
                             </ListBox>
-				<Separator Style="{StaticResource MaterialDesignSeparator}" Margin="0,420,0,0" />
-				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-					<TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Light</TextBlock>
-					<ToggleButton Name="LeftDrawer_ThemeMode_TglBtn" />
-					<TextBlock VerticalAlignment="Center" Margin="5,0,0,0">Dark</TextBlock>
-				</StackPanel>
-				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-					<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" PlacementMode="TopAndAlignCentres" Margin="3"
-				  	ToolTipService.Placement="Top" ToolTip="Primary Color">
-						<ListBox Name="LeftDrawer_PrimaryColor_LstBox" Background="{DynamicResource MaterialDesignPaper}" />  
-					</materialDesign:PopupBox>
-					<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionAccentPopupBox}" PlacementMode="TopAndAlignCentres" Margin="3"
-				  		ToolTipService.Placement="Top" ToolTip="Accent Color">
-						<ListBox Name="LeftDrawer_SecondaryColor_LstBox" Background="{DynamicResource MaterialDesignPaper}" />  
-					</materialDesign:PopupBox>
-					<StackPanel>
-						<Button Name="LeftDrawer_Theme_Apply_Btn" Height="30" Width="30" Style="{StaticResource MaterialDesignFloatingActionLightButton}" Focusable="False" ToolTip="Save Settings" Margin="3,0,0,3" >
-							<materialDesign:PackIcon Kind="ContentSaveOutline" Opacity="1" Focusable="False" Height="20" Width="20"/>
-						</Button>
-						<Button Name="LeftDrawer_Theme_Undo_Btn" Height="30" Width="30" Style="{StaticResource MaterialDesignFloatingActionLightButton}" Focusable="False" ToolTip="Undo Changes" Margin="3,3,0,0" >
-							<materialDesign:PackIcon Kind="Undo" Opacity="1" IsEnabled="True" Focusable="False" Height="20" Width="20"/>
-						</Button>
-					</StackPanel>
-				</StackPanel>
-				<Separator Style="{StaticResource MaterialDesignSeparator}"  />
-                        </StackPanel>
+                            <StackPanel Grid.Row="3">
+                                <Separator Style="{StaticResource MaterialDesignSeparator}" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10"  >
+                                    <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Light</TextBlock>
+                                    <ToggleButton Name="LeftDrawer_ThemeMode_TglBtn" />
+                                    <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">Dark</TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                    <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" PlacementMode="TopAndAlignCentres" Margin="3"
+                                    ToolTipService.Placement="Top" ToolTip="Primary Color">
+                                        <ListBox Name="LeftDrawer_PrimaryColor_LstBox" Background="{DynamicResource MaterialDesignPaper}" />  
+                                    </materialDesign:PopupBox>
+                                    <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionAccentPopupBox}" PlacementMode="TopAndAlignCentres" Margin="3"
+                                        ToolTipService.Placement="Top" ToolTip="Accent Color">
+                                        <ListBox Name="LeftDrawer_SecondaryColor_LstBox" Background="{DynamicResource MaterialDesignPaper}" />  
+                                    </materialDesign:PopupBox>
+                                    <StackPanel>
+                                        <Button Name="LeftDrawer_Theme_Apply_Btn" Height="30" Width="30" Style="{StaticResource MaterialDesignFloatingActionLightButton}" Focusable="False" ToolTip="Save Settings" Margin="3,0,0,3" >
+                                            <materialDesign:PackIcon Kind="ContentSaveOutline" Opacity="1" Focusable="False" Height="20" Width="20"/>
+                                        </Button>
+                                        <Button Name="LeftDrawer_Theme_Undo_Btn" Height="30" Width="30" Style="{StaticResource MaterialDesignFloatingActionLightButton}" Focusable="False" ToolTip="Undo Changes" Margin="3,3,0,0" >
+                                            <materialDesign:PackIcon Kind="Undo" Opacity="1" IsEnabled="True" Focusable="False" Height="20" Width="20"/>
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+                                <Separator Style="{StaticResource MaterialDesignSeparator}" />
+                            </StackPanel>
+                        </Grid>
                     </materialDesign:DrawerHost.LeftDrawerContent>
                 </materialDesign:DrawerHost>
             </Grid>
@@ -120,7 +128,7 @@
                 </Style>
             </TabControl.ItemContainerStyle>
             <materialDesign:NavigationRailAssist.FloatingContent>  
-                <TextBlock Name="ImJustPushingTheHeaderToTheRight" Width="50" Visibility="Hidden" />
+                <TextBlock Tag="ImJustPushingTheHeaderToTheRight" Width="50" Visibility="Hidden" />
             </materialDesign:NavigationRailAssist.FloatingContent>
             <TabItem Name="Computers">
                 <TabItem.Header>
