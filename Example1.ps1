@@ -5,7 +5,7 @@
 #  --------------------
 #  Avi Coren (c)
 #  Blog     - https://avicoren.wixsite.com/powershell
-#  Github   - https://github.com/DrHalfBaked/PowerShell
+#  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
@@ -25,5 +25,6 @@ catch {
 $Xaml.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name ($_.Name) -Value $Window.FindName($_.Name) -Scope Script }
 
 $Btn1.Add_Click({$TxtBox2.Text = $TxtBox1.Text})
+
 
 $Window.ShowDialog() | out-null

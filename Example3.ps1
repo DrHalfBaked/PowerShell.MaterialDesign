@@ -5,7 +5,7 @@
 #  --------------------
 #  Avi Coren (c)
 #  Blog     - https://avicoren.wixsite.com/powershell
-#  Github   - https://github.com/DrHalfBaked/PowerShell
+#  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
@@ -28,7 +28,7 @@ $Xaml.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name ($_.Name) 
 $MessageQueue =   [MaterialDesignThemes.Wpf.SnackbarMessageQueue]::new()
 $MessageQueue.DiscardDuplicates = $true
 
-Function New-Snackbar {
+function New-Snackbar {
     param (
         $Snackbar,
         $Text,
