@@ -29,7 +29,9 @@
     </Window.Resources>
     
     <Grid>
-    
+        <Grid Name="SpinnerOverlayLayer" Panel.ZIndex="1000" Visibility="Collapsed" Background="Black" Opacity="0.4">
+                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Height="50" Width="50" IsIndeterminate="True" BorderThickness="5" />
+        </Grid>
         <Grid Name="OverlayLayer" Panel.ZIndex="1000" Visibility="Visible">
             <Grid>
                 <Grid.RowDefinitions>
@@ -41,6 +43,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
+
                 
                 <ToggleButton Name="LeftDrawer_Open_TglBtn" Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  Width="25" Height="25" />
 
@@ -55,7 +58,7 @@
                     </ListBox>
                 </materialDesign:PopupBox>
                 <materialDesign:DrawerHost IsLeftDrawerOpen="False" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" OpenMode="Modal"
-                    Name="DrawerHost" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="1" Opacity="1">
+                    Name="DrawerHost" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" Opacity="1">
                     <materialDesign:DrawerHost.LeftDrawerContent>
                         <Grid Width="180" Name="LeftDrawer_Grid">
                             <Grid.RowDefinitions>
@@ -155,7 +158,7 @@
                 <TextBlock Text="Printers Page"  VerticalAlignment="Center" FontSize="30"/>
             </TabItem>
             <TabItem Name="Settings" Visibility="Collapsed">
-                <TextBlock Text="Settings Page"  VerticalAlignment="Center" FontSize="30"/>
+            
             </TabItem>
         </TabControl>
     </Grid>

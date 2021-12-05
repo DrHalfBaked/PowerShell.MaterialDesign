@@ -20,27 +20,6 @@ Add-ItemToUIControl -UIControl $LeftDrawer_SecondaryColor_LstBox -ItemToAdd $The
 $LeftDrawer_Chip_Img.Source = "$PSScriptRoot\Resources\Images\mr_bean_tiny.jpg"
 $LeftDrawer_ThemeMode_TglBtn.IsChecked = if((Get-ThemeMode -Window $Window) -eq "Dark") {$true} else {$false}
 
-[scriptblock]$SyncDrawerSizeWithWindow = {
-    $DrawerHost.Height = $MainWindow.Height  
-    $DrawerHost.Width = $MainWindow.Width
-}
-
- [scriptblock]$OnWindowStateChanged = {
-    if ($MainWindow.WindowState -eq "Maximized"){
-        $MainWindow.Height = [System.Windows.SystemParameters]::VirtualScreenHeight 
-        $MainWindow.Width =  [System.Windows.SystemParameters]::VirtualScreenWidth
-        # The virtual screen is the bounding rectangle of all display monitors
-        # It will make sure the window size is big enough to cover all monitors sizes
-        # This causes the bottom part of the window to be behind the task bar.
-        $LeftDrawer_Grid.RowDefinitions[3].Height = 240
-        # Raising the Theme settings controls (left drawer) above the task bar.
-    }
-    elseif ($MainWindow.WindowState -eq "Normal") {
-        $MainWindow.Height = $RestoreWindowHeight
-        $MainWindow.Width  = $RestoreWindowWidth
-        $LeftDrawer_Grid.RowDefinitions[3].Height = 160
-    } 
-} 
 
 [scriptblock]$OnClosingLeftDrawer = {
     $DrawerHost.IsLeftDrawerOpen = $false
@@ -48,15 +27,6 @@ $LeftDrawer_ThemeMode_TglBtn.IsChecked = if((Get-ThemeMode -Window $Window) -eq 
     $LeftDrawer_Open_TglBtn.Visibility="Visible"
 }
 
-
-$MainWindow.Add_Loaded({
-    $Script:RestoreWindowWidth  = $MainWindow.Width
-    $Script:RestoreWindowHeight = $MainWindow.Height
-})
-$MainWindow.add_SizeChanged($SyncDrawerSizeWithWindow)
-$MainWindow.add_StateChanged($OnWindowStateChanged)
-
-$DrawerHost.add_DrawerOpened($SyncDrawerSizeWithWindow)
 $DrawerHost.add_DrawerClosing($OnClosingLeftDrawer)
 
 $LeftDrawer_Close_TglBtn.add_Click($OnClosingLeftDrawer)
