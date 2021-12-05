@@ -12,20 +12,12 @@ Get-ChildItem -Path $PSScriptRoot -Filter Common*.PS1 | ForEach-Object {. ($_.Fu
 
 $Window = New-Window -XamlFile "$PSScriptRoot\Example8.xaml"
 
-[scriptblock]$SyncDrawerSizeWithWindow = {
-    $DrawerHost.Height = $MainWindow.Height  
-    $DrawerHost.Width = $MainWindow.Width
-}
-
 [scriptblock]$OnClosingDrawer = {
     $DrawerHost.IsLeftDrawerOpen = $false
     $TglBtn_OpenLeftDrawer.IsChecked = $false
     $TglBtn_OpenLeftDrawer.Visibility="Visible"
 }
 
-$MainWindow.add_SizeChanged($SyncDrawerSizeWithWindow)
-
-$DrawerHost.add_DrawerOpened($SyncDrawerSizeWithWindow)
 $DrawerHost.add_DrawerClosing($OnClosingDrawer)
 
 $TglBtn_CloseLeftDrawer.add_Click($OnClosingDrawer)

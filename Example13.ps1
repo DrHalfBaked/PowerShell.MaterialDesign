@@ -17,8 +17,9 @@ $ConfigXML = Open-ConfigurationFile -Path $ConfigFilePath
 Set-Theme -Window $Window -PrimaryColor $ConfigXML.Parameters.Settings.Theme.PrimaryColor -SecondaryColor $ConfigXML.Parameters.Settings.Theme.SecondaryColor -ThemeMode $ConfigXML.Parameters.Settings.Theme.Mode
 Add-ItemToUIControl -UIControl $LeftDrawer_PrimaryColor_LstBox   -ItemToAdd $ThemePrimaryColors
 Add-ItemToUIControl -UIControl $LeftDrawer_SecondaryColor_LstBox -ItemToAdd $ThemeSecondaryColors
-$LeftDrawer_Chip_Img.Source = "$PSScriptRoot\Resources\Images\mr_bean_tiny.jpg"
 $LeftDrawer_ThemeMode_TglBtn.IsChecked = if((Get-ThemeMode -Window $Window) -eq "Dark") {$true} else {$false}
+
+$LeftDrawer_Chip_Img.Source = "$PSScriptRoot\Resources\Images\mr_bean_tiny.jpg"
 
 
 [scriptblock]$OnClosingLeftDrawer = {
@@ -118,9 +119,6 @@ $LeftDrawer_Theme_Apply_Btn.Add_Click( {
         }
     }  
 })
-
-
-
 
 
 $Window.ShowDialog() | out-null
