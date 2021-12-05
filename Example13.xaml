@@ -29,9 +29,10 @@
     </Window.Resources>
     
     <Grid>
-        <Grid Name="SpinnerOverlayLayer" Panel.ZIndex="1000" Visibility="Collapsed" Background="Black" Opacity="0.4">
-                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Height="50" Width="50" IsIndeterminate="True" BorderThickness="5" />
+        <Grid Name="SpinnerOverlayLayer" Panel.ZIndex="1000" Visibility="Collapsed" Background="Black" Opacity="0.5">
+                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Height="50" Width="50" IsIndeterminate="True" />
         </Grid>
+
         <Grid Name="OverlayLayer" Panel.ZIndex="1000" Visibility="Visible">
             <Grid>
                 <Grid.RowDefinitions>
@@ -44,19 +45,16 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
-                
                 <ToggleButton Name="LeftDrawer_Open_TglBtn" Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  Width="25" Height="25" />
 
-                <materialDesign:PopupBox Grid.Row="0" Grid.Column="2" PlacementMode="BottomAndAlignRightEdges" Style="{StaticResource MaterialDesignToolForegroundPopupBox}">
-                    <materialDesign:PopupBox.ToggleContent>
-                        <materialDesign:PackIcon Kind="DotsVertical" Margin="4,0,4,0" Width="25" Height="25" />
-                    </materialDesign:PopupBox.ToggleContent>
-                    <ListBox>
+                <materialDesign:PopupBox Grid.Row="0" Grid.Column="2" PlacementMode="BottomAndAlignRightEdges" Style="{StaticResource MaterialDesignPopupBox}">
+                    <ListBox Name="Popup_LstBox">
                         <ListBoxItem Name="PopUpItemSetting" Content="Add" Style="{StaticResource MaterialDesignListBoxItem}" />
                         <ListBoxItem Name="PopUpItemAbout" Content="Delete" Style="{StaticResource MaterialDesignListBoxItem}"/>
                         <ListBoxItem Name="PopUpItemExit" Content="Move" Style="{StaticResource MaterialDesignListBoxItem}"/>
                     </ListBox>
                 </materialDesign:PopupBox>
+
                 <materialDesign:DrawerHost IsLeftDrawerOpen="False" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" OpenMode="Modal"
                     Name="DrawerHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" Opacity="1">
                     <materialDesign:DrawerHost.LeftDrawerContent>
@@ -114,7 +112,7 @@
                     </materialDesign:DrawerHost.LeftDrawerContent>
                 </materialDesign:DrawerHost>
             </Grid>
-            <materialDesign:Snackbar Name="Snackbar1" Opacity="1" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <materialDesign:Snackbar Name="Snackbar1" Opacity="1" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         </Grid>
 
         <TabControl Name="NavRail" Style="{StaticResource MaterialDesignNavigatilRailTabControl}" TabStripPlacement="Top"
@@ -157,7 +155,7 @@
                 <TextBlock Text="Printers Page"  VerticalAlignment="Center" FontSize="30"/>
             </TabItem>
             <TabItem Name="Settings" Visibility="Collapsed">
-            
+                <TextBlock Text="Settings Page"  VerticalAlignment="Center" FontSize="30"/>
             </TabItem>
         </TabControl>
     </Grid>

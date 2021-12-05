@@ -66,9 +66,9 @@
                                         <Setter Property="FontSize" Value="16" />
                                     </Style>
                                 </ListBox.ItemContainerStyle>
-                                <ListBoxItem Name="LeftDrawer_ListItem1" Content="Settings" />
-                                <ListBoxItem Name="LeftDrawer_ListItem2" Content="Open File"  />
-                                <ListBoxItem Name="LeftDrawer_ListItem3" Content="Exit" />
+                                <ListBoxItem Content="Settings" />
+                                <ListBoxItem Content="Open File"  />
+                                <ListBoxItem Content="Exit" />
                             </ListBox>
                         </StackPanel>
                     </materialDesign:DrawerHost.LeftDrawerContent>
