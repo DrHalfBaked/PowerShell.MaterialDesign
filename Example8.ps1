@@ -47,6 +47,7 @@ $LeftDrawerListBox1.add_SelectionChanged({
                     }
     }
     $DrawerHost.IsLeftDrawerOpen = $false
+    $LeftDrawerListBox1.SelectedIndex = -1
 })
 
 $NavRail.add_SelectionChanged({ 
@@ -54,7 +55,7 @@ $NavRail.add_SelectionChanged({
 })
 
 $LeftDrawerListBox1.add_SelectionChanged({ 
-    $LeftDrawerListBox1.SelectedIndex = -1 
+     
 })
 
 $Window.ShowDialog() | out-null

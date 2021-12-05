@@ -71,16 +71,16 @@
                                     <Image Name="LeftDrawer_Chip_Img"/>
                                 </materialDesign:Chip.Icon>
                             </materialDesign:Chip>
-                            <ListBox Name="LeftDrawer_Menu_LstBox" Grid.Row="2">
+                            <ListBox Name="LeftDrawer_Menu_LstBox" Grid.Row="2" Style="{StaticResource MaterialDesignListBox}">
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
                                         <Setter Property="FontWeight" Value="Medium" />
                                         <Setter Property="FontSize" Value="16" />
                                     </Style>
                                 </ListBox.ItemContainerStyle>
-                                <ListBoxItem Name="LeftDrawer_Menu_ListItem1" Content="Settings" />
-                                <ListBoxItem Name="LeftDrawer_Menu_ListItem2" Content="Open File"  />
-                                <ListBoxItem Name="LeftDrawer_Menu_ListItem3" Content="Exit" />
+                                <ListBoxItem Content="Settings" />
+                                <ListBoxItem Content="Open File"  />
+                                <ListBoxItem Content="Exit" />
                             </ListBox>
                             <StackPanel Grid.Row="3">
                                 <Separator Style="{StaticResource MaterialDesignSeparator}" />

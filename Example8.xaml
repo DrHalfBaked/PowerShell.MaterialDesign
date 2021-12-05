@@ -59,7 +59,7 @@
                     <materialDesign:DrawerHost.LeftDrawerContent>
                         <StackPanel Width="180" >
                             <ToggleButton Name="TglBtn_CloseLeftDrawer" Style="{StaticResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Right" IsChecked="False" Width="25" Height="25" Margin="0,3,10,20" />
-                            <ListBox Name="LeftDrawerListBox1">
+                            <ListBox Name="LeftDrawerListBox1" Style="{StaticResource MaterialDesignListBox}">
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
                                         <Setter Property="FontWeight" Value="Medium" />

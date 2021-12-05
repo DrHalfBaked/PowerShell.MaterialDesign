@@ -39,22 +39,24 @@ $LeftDrawer_Open_TglBtn.add_Click({
 })
 
 $LeftDrawer_Menu_LstBox.add_SelectionChanged({ 
-    $LeftDrawer_Menu_LstBox.SelectedIndex = -1 
-})
+    switch ($LeftDrawer_Menu_LstBox.SelectedItem.Content) {
+        "Settings"  {
+                        Set-NavigationRailTab -NavigationRail $NavRail -TabName "Settings"
+                    }
 
-$LeftDrawer_Menu_ListItem1.add_Selected({
-    Set-NavigationRailTab -NavigationRail $NavRail -TabName "Settings"
-})
+        "Open File" {
+                        $OpeneFilePath = Get-OpenFilePath -InitialDirectory $InitialDirectory  -Filter $FileFilter 
+                        if ($OpeneFilePath) {
+                            New-Snackbar -Snackbar $Snackbar1 -Text "You selected $OpeneFilePath"
+                        }
+                    }
 
-$LeftDrawer_Menu_ListItem2.add_Selected({
-    $OpeneFilePath = Get-OpenFilePath -InitialDirectory $InitialDirectory  -Filter $FileFilter 
-    if ($OpeneFilePath) {
-        New-Snackbar -Snackbar $Snackbar1 -Text "You selected $OpeneFilePath"
+        "Exit"      {
+                        $Window.Close()
+                    }
     }
-})
-
-$LeftDrawer_Menu_ListItem3.add_Selected({
-    $Window.Close()
+    $DrawerHost.IsLeftDrawerOpen = $false
+    $LeftDrawer_Menu_LstBox.SelectedIndex = -1 
 })
 
 $NavRail.add_SelectionChanged({ 
