@@ -1,8 +1,8 @@
 # PowerShell
-This repository holds all of my PowerShell scripts, implementing Material Design style for WPF apps.
+This repository holds PowerShell scripts, implementing Material Design style for WPF apps.
 
 They are all part of my blog site https://avicoren.wixsite.com/powershell
 
-All of my GUI components are based on MDIX project found on this repo:
+All of the GUI components are based on MDIX project found on this repo:
 
 https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit
