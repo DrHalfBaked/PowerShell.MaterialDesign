@@ -45,9 +45,11 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
-                <ToggleButton Name="LeftDrawer_Open_TglBtn" Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  Width="25" Height="25" />
+                <ToggleButton Name="LeftDrawer_Open_TglBtn" Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  
+                    Width="25" Height="25" Foreground="{DynamicResource PrimaryDarkBrush}"/>
 
-                <materialDesign:PopupBox Grid.Row="0" Grid.Column="2" PlacementMode="BottomAndAlignRightEdges" Style="{StaticResource MaterialDesignPopupBox}">
+                <materialDesign:PopupBox Grid.Row="0" Grid.Column="2" PlacementMode="BottomAndAlignRightEdges" Style="{StaticResource MaterialDesignPopupBox}" 
+                    Foreground="{DynamicResource PrimaryDarkBrush}" StaysOpen="False">
                     <ListBox Name="Popup_LstBox">
                         <ListBoxItem Name="PopUpItemSetting" Content="Add" Style="{StaticResource MaterialDesignListBoxItem}" />
                         <ListBoxItem Name="PopUpItemAbout" Content="Delete" Style="{StaticResource MaterialDesignListBoxItem}"/>
@@ -112,7 +114,7 @@
                     </materialDesign:DrawerHost.LeftDrawerContent>
                 </materialDesign:DrawerHost>
             </Grid>
-            <materialDesign:Snackbar Name="Snackbar1" Opacity="1" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <materialDesign:Snackbar Name="MainSnackbar" Opacity="1" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         </Grid>
 
         <TabControl Name="NavRail" Style="{StaticResource MaterialDesignNavigatilRailTabControl}" TabStripPlacement="Top"

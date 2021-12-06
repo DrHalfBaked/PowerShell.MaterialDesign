@@ -5,7 +5,7 @@
 #
 #  Avi Coren (c)
 #  Blog     - https://avicoren.wixsite.com/powershell
-#  Github   - https://github.com/DrHalfBaked/PowerShell
+#  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
 #  Last file update:  Dec 4, 2021  09:13
@@ -114,15 +114,30 @@ function Get-OpenFilePath {
     }
 } 
 
-function Open-ConfigurationFile {
+function Open-File {
     param(
-        $Path
+        $Path,
+        $FileType
     )
     try {
-        [xml]$ConfigXML = (Get-content $Path)
-        return $ConfigXML
+        if (!(Test-Path $Path)) {
+            Write-error "File $Path not found"
+            return
+        }
+        switch ($FileType) {
+            "xml"   {
+                        [xml]$OutputFile = (Get-content $Path)
+                    }
+            "csv"   {
+                $OutputFile = (Import-Csv -Path $Path -Encoding UTF8)
+                    }
+            default {
+                        $OutputFile = (Get-content $Path)
+                    }
+        }
+        return $OutputFile
     } catch {
-        Write-error "$Path file not found or not valid"
+        Write-error "$Path file not found or not valid`n$_"
         return
     }
 }

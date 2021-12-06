@@ -12,7 +12,7 @@ Get-ChildItem -Path $PSScriptRoot -Filter Common*.PS1 | ForEach-Object {. ($_.Fu
 
 $Window = New-Window -XamlFile "$PSScriptRoot\Example13.xaml"
 $ConfigFilePath = "$PSScriptRoot\Example.config"
-$ConfigXML = Open-ConfigurationFile -Path $ConfigFilePath
+$ConfigXML = Open-File -Path $ConfigFilePath -FileType xml
 
 Set-Theme -Window $Window -PrimaryColor $ConfigXML.Parameters.Settings.Theme.PrimaryColor -SecondaryColor $ConfigXML.Parameters.Settings.Theme.SecondaryColor -ThemeMode $ConfigXML.Parameters.Settings.Theme.Mode
 Add-ItemToUIControl -UIControl $LeftDrawer_PrimaryColor_LstBox   -ItemToAdd $ThemePrimaryColors
@@ -47,7 +47,7 @@ $LeftDrawer_Menu_LstBox.add_SelectionChanged({
         "Open File" {
                         $OpeneFilePath = Get-OpenFilePath -InitialDirectory $InitialDirectory  -Filter $FileFilter 
                         if ($OpeneFilePath) {
-                            New-Snackbar -Snackbar $Snackbar1 -Text "You selected $OpeneFilePath"
+                            New-Snackbar -Snackbar $MainSnackbar -Text "You selected $OpeneFilePath"
                         }
                     }
 
@@ -60,7 +60,7 @@ $LeftDrawer_Menu_LstBox.add_SelectionChanged({
 })
 
 $NavRail.add_SelectionChanged({ 
-    New-Snackbar -Snackbar $Snackbar1 -Text "You selected the $(Get-NavigationRailSelectedTabName -NavigationRail $NavRail) page" 
+    New-Snackbar -Snackbar $MainSnackbar -Text "You selected the $(Get-NavigationRailSelectedTabName -NavigationRail $NavRail) page" 
 })
 
 $LeftDrawer_ThemeMode_TglBtn.Add_Click({ 
@@ -69,17 +69,13 @@ $LeftDrawer_ThemeMode_TglBtn.Add_Click({
 }) 
 
 $LeftDrawer_PrimaryColor_LstBox.Add_SelectionChanged( { 
-    $sender = [System.Windows.Controls.ListBox]$args[0]
-    $e = [System.Windows.Controls.SelectionChangedEventArgs]$args[1]
-    if ($sender.IsMouseCaptured ) {   # this condition prvents the event to be triggered when listbox selection is changed programatically
+    if ($this.IsMouseCaptured ) {   # this condition prvents the event to be triggered when listbox selection is changed programatically
         Set-Theme -Window $Window -PrimaryColor $LeftDrawer_PrimaryColor_LstBox.SelectedValue
     }
 })
    
 $LeftDrawer_SecondaryColor_LstBox.Add_SelectionChanged( {
-    $sender = [System.Windows.Controls.ListBox]$args[0]
-    $e = [System.Windows.Controls.SelectionChangedEventArgs]$args[1]
-    if ($sender.IsMouseCaptured ) {   # this condition prvents the event to be triggered when listbox selection is changed programatically
+    if ($this.IsMouseCaptured ) {   # this condition prvents the event to be triggered when listbox selection is changed programatically
         Set-Theme -Window $Window -SecondaryColor $LeftDrawer_SecondaryColor_LstBox.SelectedValue
     }
 })   
@@ -113,10 +109,10 @@ $LeftDrawer_Theme_Apply_Btn.Add_Click( {
     if ($IsChanged) {
         try {
             $ConfigXML.Save($ConfigFilePath)
-            New-Snackbar -Snackbar $Snackbar1 -Text "Theme was successfully saved"
+            New-Snackbar -Snackbar $MainSnackbar -Text "Theme was successfully saved"
         }
         catch {
-            New-Snackbar -Snackbar $Snackbar1 -Text  $_[0] -ButtonCaption "OK"
+            New-Snackbar -Snackbar $MainSnackbar -Text  $_[0] -ButtonCaption "OK"
             return
         }
     }  
