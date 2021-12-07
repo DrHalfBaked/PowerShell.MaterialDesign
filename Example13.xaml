@@ -70,7 +70,11 @@
                             <ToggleButton Name="LeftDrawer_Close_TglBtn" Grid.Row="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Right" IsChecked="False" Width="25" Height="25" Margin="0,3,10,0" />
                             <materialDesign:Chip Content="Mr. Bean" Grid.Row="1" HorizontalAlignment="Center">
                                 <materialDesign:Chip.Icon>
-                                    <Image Name="LeftDrawer_Chip_Img"/>
+                                    <Image Name="LeftDrawer_Chip_Img" >
+                                        <Image.RenderTransform>
+                                            <ScaleTransform />
+                                        </Image.RenderTransform>
+                                    </Image>
                                 </materialDesign:Chip.Icon>
                             </materialDesign:Chip>
                             <ListBox Name="LeftDrawer_Menu_LstBox" Grid.Row="2" Style="{StaticResource MaterialDesignListBox}">

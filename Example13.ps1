@@ -20,7 +20,9 @@ Add-ItemToUIControl -UIControl $LeftDrawer_SecondaryColor_LstBox -ItemToAdd $The
 $LeftDrawer_ThemeMode_TglBtn.IsChecked = if((Get-ThemeMode -Window $Window) -eq "Dark") {$true} else {$false}
 
 $LeftDrawer_Chip_Img.Source = "$PSScriptRoot\Resources\Images\mr_bean_tiny.jpg"
-
+$LeftDrawer_Chip_Img.RenderTransformOrigin=".5,.5"
+$LeftDrawer_Chip_Img.RenderTransform.ScaleX = 1.1
+$LeftDrawer_Chip_Img.RenderTransform.ScaleY = 1.1
 
 [scriptblock]$OnClosingLeftDrawer = {
     $DrawerHost.IsLeftDrawerOpen = $false
