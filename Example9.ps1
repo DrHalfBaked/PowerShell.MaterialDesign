@@ -8,29 +8,33 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-[Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
-[Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
-[Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignColors.dll")
-Get-ChildItem "$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll" | Select-Object -ExpandProperty versioninfo | Select-Object -ExpandProperty ProductVersion | out-host   #Material Design Version
-Set-Culture -CultureInfo en-IL #(Get-WinSystemLocale | Select-Object -ExpandProperty Name)
-try {
-    [xml]$Xaml = (Get-content "$PSScriptRoot\Example9.xaml")
-    $Reader = New-Object System.Xml.XmlNodeReader $Xaml
-    $Window = [Windows.Markup.XamlReader]::Load($Reader)
-} 
-catch {
-    Write-Error "Error building Xaml data.`n$_"
-    exit
-}
 
-$Xaml.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name ($_.Name) -Value $Window.FindName($_.Name) -Scope Script }
+Get-ChildItem -Path $PSScriptRoot -Filter Common*.PS1 | ForEach-Object {. ($_.FullName)}
 
-$Drawer_User_Img.Source = "$PSScriptRoot\Resources\Images\mr_bean.jpg"
+$Window = New-Window -XamlFile "$PSScriptRoot\Example9.xaml"
 
-$DrawerHost.add_DrawerOpened({
-    $DrawerHost.Height = $MainWindow.Height  # Make the Drawer size the same as the window, so the Modal can fully cover it.
-    $DrawerHost.Width = $MainWindow.Width
+#####Set-Culture -CultureInfo en-IL #(Get-WinSystemLocale | Select-Object -ExpandProperty Name)
+
+Get-Variable -Include "Form_Textbox_*" -ValueOnly | ForEach-Object { Set-OutlinedProperty -TextboxObject $_ -Padding "2" -SetFloatingOffset "5,-18" -SetFloatingScale "0.8" -FontSize 16 }
+Get-Variable -Include "Form_Picker_*"  -ValueOnly | ForEach-Object { Set-OutlinedProperty -TextboxObject $_ -Padding "8" -SetFloatingOffset "1,-18" -SetFloatingScale "0.8" -FontSize 16 }
+
+$CarList = Import-Csv -Path "$PSScriptRoot\Cars.csv"
+Add-ItemToUIControl -UIControl $Form_Picker_Car_Make -ItemToAdd ($CarList.Make | Select-Object -Unique | Sort-Object )
+Add-ItemToUIControl -UIControl $Form_Picker_Car_Color -ItemToAdd ([System.Windows.Media.Colors].Getproperties() | Select-Object -ExpandProperty name | Sort-Object )
+Add-ItemToUIControl -UIControl $Form_Picker_Car_Year -ItemToAdd (1990..2021)
+$Form_Picker_Car_Make.add_SelectionChanged({
+    Add-ItemToUIControl -UIControl $Form_Picker_Car_Model -Clear
+    Add-ItemToUIControl -UIControl $Form_Picker_Car_Model -ItemToAdd ($CarList | Where-Object {$_.Make -eq $Form_Picker_Car_Make.SelectedItem }  | Select-Object -ExpandProperty Model | Select-Object -Unique | Sort-Object )
 })
+
+
+$Cars_Datatable = [System.Data.DataTable]::New()
+[void]$Cars_Datatable.Columns.AddRange(@('Make', 'Model', 'Owner', 'Color'))
+$Cars_Datatable.primarykey = $Cars_Datatable.columns['Make', 'Model', 'Owner', 'Color']
+[void]$Cars_Datatable.Rows.Add('Toyota', 'Corolla', 'John Smith', 'Blue')
+[void]$Cars_Datatable.Rows.Add('Tesla', 'Model 3', 'Will Bond', 'White')
+
+$Cars_DataGrid.ItemsSource = $Cars_Datatable.DefaultView
 
 [scriptblock]$OnClosingDrawer = {
     $DrawerHost.IsLeftDrawerOpen = $false
@@ -50,8 +54,11 @@ $TglBtn_OpenLeftDrawer.add_Click({
 $Cars_Popup_Add_Car.Add_Click( { $NavRail.SelectedIndex = [array]::IndexOf((($NavRail.Items | Select-Object -ExpandProperty name).toupper()),"CarRegistration".ToUpper()) })
 
 
-$LeftDrawer_ListItem1.Add_Selected({
-    $NavRail.SelectedIndex = [array]::IndexOf((($NavRail.Items | Select-Object -ExpandProperty name).toupper()),"MOVIES")  
+$NavRail.add_SelectionChanged({
+    if ($_.Source -like "System.Windows.Controls.TabControl*") {
+        # Write a switch that will run a relevant block for each page
+    }
 })
+
 
 $Window.ShowDialog() | out-null
