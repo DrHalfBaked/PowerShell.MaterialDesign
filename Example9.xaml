@@ -159,75 +159,63 @@
                         <TextBlock Text="Cars" HorizontalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <materialDesign:Card Height="400" Width="900" Margin="20" HorizontalAlignment="Left" VerticalAlignment="Top">
-                
+                <materialDesign:Card Height="550" Width="500" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                        <TextBlock Text="Car Registration" Grid.Row="0" Padding="20" Margin="0,0,0,20" FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+                    <TextBlock Text="Car Registration" Grid.Row="0" Padding="20" Margin="0,0,0,20" FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
                         
-                        <StackPanel Grid.Row="1" Margin="20" >
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120" />
-                                    <ColumnDefinition MaxWidth="40" />
-                                    <ColumnDefinition Width="120" />
-                                    <ColumnDefinition MaxWidth="40" />
-                                    <ColumnDefinition Width="120" />
-                                    <ColumnDefinition MaxWidth="40" />
-                                    
-                                </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="1" Margin="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition MaxWidth="40" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition MaxWidth="40" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
 
-                            
+                        <TextBlock Height="30" Grid.Row="1" Visibility="Hidden" />
+                        <TextBlock Height="30" Grid.Row="3" Visibility="Hidden" />
+                        <TextBlock Height="30" Grid.Row="5" Visibility="Hidden" />
+                        <TextBlock Height="30" Grid.Row="7" Visibility="Hidden" />
+                        <TextBlock Width="40" Grid.Column="1" Visibility="Hidden" />
+                        <TextBlock Width="40" Grid.Column="3" Visibility="Hidden" />
+                        
+                        <ComboBox Name="Form_Combobox_Car_Make" Grid.Column="0" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Make"  />
+                        <ComboBox Name="Form_Combobox_Car_Model" Grid.Column="2" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Model" />
+                        <ComboBox Name="Form_Combobox_Car_Year" Grid.Column="4" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Year" />
+                        
+                        <ComboBox Name="Form_Combobox_Car_Color" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Color" />
+                        <materialDesign:TimePicker Name="Form_TimePicker_Car_Registered_Time" Grid.Column="4" Grid.Row="2"  Style="{StaticResource MaterialDesignOutlinedTimePicker}" materialDesign:HintAssist.Hint="Reg.Time" />
 
-                                <TextBlock Height="30" Grid.Row="1" Visibility="Hidden" />
-                                <TextBlock Height="30" Grid.Row="3" Visibility="Hidden" />
-                                <TextBlock Height="30" Grid.Row="5" Visibility="Hidden" />
-                                <TextBlock Height="30" Grid.Row="7" Visibility="Hidden" />
-                                <TextBlock Width="40" Grid.Column="1" Visibility="Hidden" />
-                                <TextBlock Width="40" Grid.Column="3" Visibility="Hidden" />
-                                <TextBlock Width="40" Grid.Column="5" Visibility="Hidden" />
-                                
-                                
-                                <ComboBox Name="Form_Picker_Car_Make" Grid.Column="0" Grid.Row="0"  Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Make"  />
-                                <ComboBox Name="Form_Picker_Car_Model" Grid.Column="2" Grid.Row="0"   Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Model" />
-                                <ComboBox Name="Form_Picker_Car_Year" Grid.Column="4" Grid.Row="0"   Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Year" />
-                                <ComboBox Name="Form_Picker_Car_Color" Grid.Column="0" Grid.Row="2"  Grid.ColumnSpan="3" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Color"/>
-                                <TextBox Name="Form_Textbox_Car_Owner" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Car's Owner"/>
-                                <TextBox Grid.Column="0" Grid.Row="6"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                                
-                                
-                                <materialDesign:TimePicker Name="Form_Picker_Car_Registered_Time" Grid.Column="4" Grid.Row="2"  Style="{StaticResource MaterialDesignOutlinedTimePicker}" materialDesign:HintAssist.Hint="Reg.Time" />
-                                <DatePicker Name="Form_Picker_Car_Registered_Date" Grid.Column="4" Grid.Row="4"  Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Reg.Date"/>
-                                <ComboBox Grid.Column="4" Grid.Row="6"  Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
-                                    
-                            <Viewbox Margin="0 4 0 8" Height="24" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="6">
-                                <materialDesign:RatingBar Value="3" Orientation="Horizontal" Foreground="Gold" Margin="0" />
-                            </Viewbox>
-      
+                        <TextBox Name="Form_Textbox_Car_Owner" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Car's Owner" />
+                        <DatePicker Name="Form_DatePicker_Car_Registered_Date" Grid.Column="4" Grid.Row="4"  Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Reg.Date"/>
+                        
+                        <TextBox Name="Form_TextboxShort_Car_Plate" Grid.Column="0" Grid.Row="6"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="License Plate" />
+                        <TextBlock Name="Form_Textblk_Car_Rate" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Rate this car" Margin="0,0,10,0" FontSize="16" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2"/>
+                        <materialDesign:RatingBar Name="Form_RatingBar_Car_Rate" Orientation="Horizontal" VerticalAlignment="Center" Foreground="Gold"  Grid.Column="4" Grid.Row="6" />
 
-                                
-
-                            </Grid>
-
-
-
-                        </StackPanel>
-
+                        <TextBox Name="Form_TextboxShort_Car_Note" Grid.Column="0" Grid.Row="8"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Note" Grid.ColumnSpan="5"/>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Margin="0,20,30,0">
+                        <Button Name="Form_Btn_Reset" Style="{StaticResource MaterialDesignFlatLightBgButton}" Content="Reset" Width="80" Margin="10" />
+                        <Button Name="Form_Btn_Cancel" Style="{StaticResource MaterialDesignFlatLightBgButton}" Content="Cancel" Width="80" Margin="10" />
+                        <Button Name="Form_Btn_Apply" Style="{StaticResource MaterialDesignFlatLightBgButton}" Content="Apply" Width="80" Margin="10" />
+                    </StackPanel>
                 </Grid>
             </materialDesign:Card>
 

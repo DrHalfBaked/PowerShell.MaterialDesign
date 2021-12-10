@@ -16,15 +16,15 @@ $Window = New-Window -XamlFile "$PSScriptRoot\Example9.xaml"
 #####Set-Culture -CultureInfo en-IL #(Get-WinSystemLocale | Select-Object -ExpandProperty Name)
 
 Get-Variable -Include "Form_Textbox_*" -ValueOnly | ForEach-Object { Set-OutlinedProperty -TextboxObject $_ -Padding "2" -SetFloatingOffset "5,-18" -SetFloatingScale "0.8" -FontSize 16 }
-Get-Variable -Include "Form_Picker_*"  -ValueOnly | ForEach-Object { Set-OutlinedProperty -TextboxObject $_ -Padding "8" -SetFloatingOffset "1,-18" -SetFloatingScale "0.8" -FontSize 16 }
+Get-Variable -Include "Form_TextboxShort_*","Form_Combobox_*","Form_TimePicker_*","Form_DatePicker_*"  -ValueOnly | ForEach-Object { Set-OutlinedProperty -TextboxObject $_ -Padding "8" -SetFloatingOffset "1,-18" -SetFloatingScale "0.8" -FontSize 16 }
 
 $CarList = Import-Csv -Path "$PSScriptRoot\Cars.csv"
-Add-ItemToUIControl -UIControl $Form_Picker_Car_Make -ItemToAdd ($CarList.Make | Select-Object -Unique | Sort-Object )
-Add-ItemToUIControl -UIControl $Form_Picker_Car_Color -ItemToAdd ([System.Windows.Media.Colors].Getproperties() | Select-Object -ExpandProperty name | Sort-Object )
-Add-ItemToUIControl -UIControl $Form_Picker_Car_Year -ItemToAdd (1990..2021)
-$Form_Picker_Car_Make.add_SelectionChanged({
-    Add-ItemToUIControl -UIControl $Form_Picker_Car_Model -Clear
-    Add-ItemToUIControl -UIControl $Form_Picker_Car_Model -ItemToAdd ($CarList | Where-Object {$_.Make -eq $Form_Picker_Car_Make.SelectedItem }  | Select-Object -ExpandProperty Model | Select-Object -Unique | Sort-Object )
+Add-ItemToUIControl -UIControl $Form_Combobox_Car_Make -ItemToAdd ($CarList.Make | Select-Object -Unique | Sort-Object )
+Add-ItemToUIControl -UIControl $Form_Combobox_Car_Color -ItemToAdd ([System.Windows.Media.Colors].Getproperties() | Select-Object -ExpandProperty name | Sort-Object )
+Add-ItemToUIControl -UIControl $Form_Combobox_Car_Year -ItemToAdd (1990..2021)
+$Form_Combobox_Car_Make.add_SelectionChanged({
+    Add-ItemToUIControl -UIControl $Form_Combobox_Car_Model -Clear
+    Add-ItemToUIControl -UIControl $Form_Combobox_Car_Model -ItemToAdd ($CarList | Where-Object {$_.Make -eq $Form_Combobox_Car_Make.SelectedItem }  | Select-Object -ExpandProperty Model | Select-Object -Unique | Sort-Object )
 })
 
 
@@ -53,12 +53,26 @@ $TglBtn_OpenLeftDrawer.add_Click({
 
 $Cars_Popup_Add_Car.Add_Click( { $NavRail.SelectedIndex = [array]::IndexOf((($NavRail.Items | Select-Object -ExpandProperty name).toupper()),"CarRegistration".ToUpper()) })
 
+[scriptblock]$OnResetCarForm = {
+    Get-Variable -Include "Form_Combobox*Car*" -ValueOnly | ForEach-Object {$_.SelectedItem = $null}
+    Get-Variable -Include "Form_Textbox*Car*","Form_DatePicker*Car*","Form_TimePicker*Car*" -ValueOnly | ForEach-Object { $_.Text = $null }
+    $Form_RatingBar_Car_Rate.Value = 1
+}
 
 $NavRail.add_SelectionChanged({
     if ($_.Source -like "System.Windows.Controls.TabControl*") {
-        # Write a switch that will run a relevant block for each page
+        Write-host " tab control event"
+        switch (Get-NavigationRailSelectedTabName -NavigationRail $NavRail) {
+
+            "CarRegistration"   {   Invoke-Command -Command $OnResetCarForm
+                                    $Form_Btn_Apply.IsEnabled = $false 
+                                }
+            
+        }
     }
 })
 
+$Form_Btn_Reset.add_Click($OnResetCarForm)
+$Form_Btn_Cancel.add_Click({ Set-NavigationRailTab -NavigationRail $NavRail -TabName "Cars" })
 
 $Window.ShowDialog() | out-null

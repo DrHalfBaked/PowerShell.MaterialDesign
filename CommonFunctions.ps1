@@ -8,7 +8,7 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 4, 2021  09:13
+#  Last file update:  Dec 9, 2021  20:00
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
@@ -16,9 +16,7 @@
 
 function New-Window {
     param (
-        [Parameter()]    
         $XamlFile,
-        [Parameter()]
         [Switch]$NoSnackbar
     )
         
@@ -26,21 +24,20 @@ function New-Window {
         [xml]$Xaml = (Get-content $XamlFile)
         $Reader = New-Object System.Xml.XmlNodeReader $Xaml
         $Window = [Windows.Markup.XamlReader]::Load($Reader)
+        
+        $Xaml.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name ($_.Name) -Value $Window.FindName($_.Name) -Scope Script }
+        # Objects that have to be declared before the window launches (will run in the same dispatcher thread as the window)
+        if (!$NoSnackbar){
+            $Script:MessageQueue =   [MaterialDesignThemes.Wpf.SnackbarMessageQueue]::new()
+            $Script:MessageQueue.DiscardDuplicates = $true
+        }
+        
+        return $Window
     } 
     catch {
-        Write-Error "Error building Xaml data.`n$_"
+        Write-Error "Error building Xaml data or loading window data.`n$_"
         exit
     }
-    
-    $Xaml.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name ($_.Name) -Value $Window.FindName($_.Name) -Scope Script }
-
-    # Objects that have to be declared before the window launches (will run in the same dispatcher thread as the window)
-    if (!$NoSnackbar){
-        $Script:MessageQueue =   [MaterialDesignThemes.Wpf.SnackbarMessageQueue]::new()
-        $Script:MessageQueue.DiscardDuplicates = $true
-    }
-
-    return $Window
 }
 
 function New-Snackbar {
@@ -93,9 +90,10 @@ function Get-SaveFilePath {
         return $SaveFileDialog.filename
     } 
     catch {
-        Throw "Save-File Error $_"
+        Write-Error "Error in Get-SaveFilePath common function`n$_"
     }
 } 
+
 function Get-OpenFilePath {
     Param (
         [string] $InitialDirectory,
@@ -110,7 +108,7 @@ function Get-OpenFilePath {
         return $OpenFileDialog.filename
     }
     catch {
-        Throw "Open-File Error $_"
+        Write-Error "Error in Get-OpenFilePath common function`n$_"
     }
 } 
 
@@ -137,17 +135,62 @@ function Open-File {
         }
         return $OutputFile
     } catch {
-        Write-error "$Path file not found or not valid`n$_"
-        return
+        Write-error "Error in Open-File common function`n$_"
     }
 }
 
 function Add-ItemToUIControl {
     param(
-        $UIControl,
-        $ItemToAdd
+        [System.Management.Automation.PSObject[]]$UIControl,
+        [System.Management.Automation.PSObject[]]$ItemToAdd,
+        [Switch]$Clear
     )
-    foreach ($Item in $ItemToAdd) {
-        [void] $UIControl.Items.Add($Item)
+    try{
+        if ($Clear){
+            foreach($Control in $UIControl) {
+                $Control.Items.Clear()
+            }
+        }
+        else {
+            foreach($Control in $UIControl) {
+                foreach ($Item in $ItemToAdd) {
+                    [void] $Control.Items.Add($Item)
+                }
+            }
+        }
+    }
+    catch{
+        Write-Error "Error in Add-ItemToUIControl common function`n$_"
+    }
+}
+
+function Set-OutlinedProperty {
+    param (
+        [System.Management.Automation.PSObject[]]$TextboxObject,
+        $Padding,                 # "2"
+        $SetFloatingOffset,       # "-15, 0"
+        $SetFloatingScale,        # "1.2"
+        $FontSize
+    )
+    try {
+        foreach($Textbox in $TextboxObject) {
+            if($Padding){
+                $Textbox.padding = [System.Windows.Thickness]::new($Padding)
+            }
+            if($SetFloatingOffset){
+                [MaterialDesignThemes.Wpf.HintAssist]::SetFloatingOffset( $Textbox, $SetFloatingOffset)
+            }
+            if($SetFloatingScale){
+                [MaterialDesignThemes.Wpf.HintAssist]::SetFloatingScale( $Textbox, $SetFloatingScale)
+            }
+            if($FontSize){
+                $Textbox.FontSize = $FontSize
+            }
+            $Textbox.VerticalContentAlignment = "Center"
+            $Textbox.Opacity = "0.75"
+        }
+    }
+    catch {
+        Write-Error "Error in Set-OutlinedProperty common function`n$_"
     }
 }
