@@ -92,65 +92,7 @@
                         <TextBlock Text="Users" HorizontalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <materialDesign:Card Width="220">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                        <RowDefinition Height="140" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Image Name="UserImage" HorizontalAlignment="Center" VerticalAlignment="Center" Height="140" Stretch="UniformToFill" />
-                        <Button Grid.Row="0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 16 -20">
-                            <materialDesign:PackIcon Kind="ShareVariant" />
-                        </Button>
-                        <StackPanel Grid.Row="1" Margin="8 24 8 4">
-                            <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"  Text="E.T. the Extra-Terrestrial" />
-                        <Viewbox Margin="0 4 0 8" Height="16" HorizontalAlignment="Left">
-                            <materialDesign:RatingBar Value="3" Orientation="Horizontal" Foreground="Gold" />
-                        </Viewbox>
-                        <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" VerticalAlignment="Center"
-                            Text="After a gentle alien becomes stranded on Earth, the being is discovered and befriended by a young boy named Elliott." />
-                        </StackPanel>
-                        <Separator Grid.Row="2" Style="{StaticResource MaterialDesignDarkSeparator}" Margin="8 0 8 0" />
-                        <TextBlock Grid.Row="3" Margin="8 4 8 4" Style="{StaticResource MaterialDesignBody2TextBlock}" Text="Tonight's availability" />
-                        <Grid Grid.Row="4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <materialDesign:PackIcon Grid.Column="0" Kind="Clock" VerticalAlignment="Center" Margin="8 4 4 4" />
-                        <ListBox Grid.Column="1" Style="{StaticResource MaterialDesignToolToggleFlatListBox}" SelectedIndex="0" Margin="4 8 8 4">
-                            <ListBox.Resources>
-                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignToolToggleListBoxItem}">
-                                <Setter Property="Padding" Value="4 6 4 6" />
-                            </Style>
-                            </ListBox.Resources>
-                            <ListBox.ToolTip>
-                            <StackPanel>
-                                <TextBlock Text="MaterialDesignFlatToggleListBox" />
-                                <TextBlock Text="Exclusive selection" />
-                                <TextBlock Text="ListBoxAssist.IsToggle allows more natural toggle behaviour" />
-                            </StackPanel>
-                            </ListBox.ToolTip>
-                            <ListBoxItem>
-                            <TextBlock Text="18:00" />
-                            </ListBoxItem>
-                            <ListBoxItem>
-                            <TextBlock Text="19:00" />
-                            </ListBoxItem>
-                            <ListBoxItem>
-                            <TextBlock Text="22:00" />
-                            </ListBoxItem>
-                        </ListBox>
-                        </Grid>
-                        <StackPanel Grid.Row="5">
-                        <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Left" Margin="8 4 8 8" Content="RESERVE" />
-                        </StackPanel>
-                    </Grid>
-                </materialDesign:Card>
+                <TextBlock Text="Users Page" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
             </TabItem>
             <TabItem Name="CarRegistration" Visibility="Collapsed">
                 <TabItem.Header>
@@ -167,7 +109,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Text="Car Registration" Grid.Row="0" Padding="20" FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
-                    <Grid Grid.Row="1" Margin="20">
+                    <Grid Grid.Row="1" Name="CarRegForm" Margin="20">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -194,21 +136,21 @@
                         <TextBlock Width="40" Grid.Column="1" Visibility="Hidden" />
                         <TextBlock Width="40" Grid.Column="3" Visibility="Hidden" />
                         
-                        <ComboBox Name="Car_Reg_Form_Combobox_Make" Grid.Column="0" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Make"  />
-                        <ComboBox Name="Car_Reg_Form_Combobox_Model" Grid.Column="2" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Model" />
-                        <ComboBox Name="Car_Reg_Form_Combobox_Year" Grid.Column="4" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Year" />
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Make" Grid.Column="0" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Make"  />
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Model" Grid.Column="2" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Model" />
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Year" Grid.Column="4" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Year" />
                         
-                        <ComboBox Name="Car_Reg_Form_Combobox_Color" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Color" />
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Color" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Color" />
                         <materialDesign:TimePicker Name="Car_Reg_Form_TimePicker_Registered" Grid.Column="4" Grid.Row="2"  Style="{StaticResource MaterialDesignOutlinedTimePicker}" materialDesign:HintAssist.Hint="Reg.Time" />
 
-                        <TextBox Name="Car_Reg_Form_Textbox_Owner" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Car Owner" />
+                        <TextBox Name="Car_Reg_Form_TextBox_Owner" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Car Owner" />
                         <DatePicker Name="Car_Reg_Form_DatePicker_Registered" Grid.Column="4" Grid.Row="4"  Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Reg.Date"/>
                         
-                        <TextBox Name="Car_Reg_Form_TextboxShort_Plate" Grid.Column="0" Grid.Row="6"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="License Plate" />
-                        <TextBlock Name="Car_Reg_Form_Textblk_Rate" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Rate this car" Margin="0,0,10,0" FontSize="16" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2"/>
+                        <TextBox Name="Car_Reg_Form_TextBox_Plate" Grid.Column="0" Grid.Row="6"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="License Plate" />
+                        <TextBlock Name="Car_Reg_Form_TextBlock_Rate" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Rate this car" Margin="0,0,10,0" FontSize="16" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2"/>
                         <materialDesign:RatingBar Name="Car_Reg_Form_RatingBar_Rate" Orientation="Horizontal" VerticalAlignment="Center" Foreground="Gold"  Grid.Column="4" Grid.Row="6" />
 
-                        <TextBox Name="Car_Reg_Form_TextboxShort_Note" Grid.Column="0" Grid.Row="8"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Note" Grid.ColumnSpan="5"/>
+                        <TextBox Name="Car_Reg_Form_TextBox_Note" Grid.Column="0" Grid.Row="8"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Note" Grid.ColumnSpan="5"/>
                     </Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Margin="0,20,10,0">
                         <Button Name="Car_Reg_Form_Btn_Reset" Style="{StaticResource MaterialDesignFlatLightBgButton}" Content="Reset" Width="80" Margin="10" />
@@ -234,6 +176,7 @@
                     <DataGrid Name="Cars_DataGrid" Grid.Row="0" SelectionMode="Single" AutoGenerateColumns="False" SelectionUnit="FullRow" CanUserAddRows="False" IsReadOnly="True"
                                 GridLinesVisibility="Horizontal" CanUserReorderColumns="True" Width="1000" MinHeight="200" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Top"
                                 materialDesign:DataGridAssist.CellPadding="20,10,0,10" materialDesign:DataGridAssist.ColumnHeaderPadding="20,5,0,5">
+                                
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Make"  Binding="{Binding Make}"  />
                             <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
@@ -264,7 +207,7 @@
                                 <Button Name="Cars_Popup_Edit_Car" ToolTip="Edit Car" IsEnabled="False" >
                                     <materialDesign:PackIcon Kind="Pencil" Width="24" Height="24" />
                                 </Button>
-                                <Button Name="Cars_Popup_Delete_Car" ToolTip="Delete Car" >
+                                <Button Name="Cars_Popup_Delete_Car" ToolTip="Delete Car" IsEnabled="False" >
                                     <materialDesign:PackIcon Kind="Delete" Width="24" Height="24" />
                                 </Button>
                             </StackPanel>
@@ -278,7 +221,7 @@
                         <TextBlock Text="Photos" HorizontalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-               <TextBlock Text="Photos Page" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+                <TextBlock Text="Photos Page" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
             </TabItem>
             <TabItem Name="Movies">
                 <TabItem.Header>

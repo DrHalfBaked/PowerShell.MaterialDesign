@@ -1,7 +1,7 @@
 ###########
 #  Learn how to build Material Design based PowerShell apps
 #  --------------------
-#  Example9: Forms and validations
+#  Example9: Forms without validations
 #  --------------------
 #  Avi Coren (c)
 #  Blog     - https://avicoren.wixsite.com/powershell
@@ -13,12 +13,8 @@ Get-ChildItem -Path $PSScriptRoot -Filter Common*.PS1 | ForEach-Object {. ($_.Fu
 
 $Window = New-Window -XamlFile "$PSScriptRoot\Example9.xaml"
 
-#####Set-Culture -CultureInfo en-IL #(Get-WinSystemLocale | Select-Object -ExpandProperty Name)
-
-Get-Variable -Include "Car_Reg_Form_Textbox_*" -ValueOnly |
-    ForEach-Object { Set-OutlinedProperty -TextboxObject $_ -Padding "2" -SetFloatingOffset "5,-18" -SetFloatingScale "0.8" -FontSize 16 }
-Get-Variable -Include "Car_Reg_Form_TextboxShort_*","Car_Reg_Form_Combobox_*","Car_Reg_Form_TimePicker_*","Car_Reg_Form_DatePicker_*"  -ValueOnly |
-    ForEach-Object { Set-OutlinedProperty -TextboxObject $_ -Padding "8" -SetFloatingOffset "1,-18" -SetFloatingScale "0.8" -FontSize 16 }
+Get-Variable -Include "Car_Reg_Form_Textbox*","Car_Reg_Form_Combobox*","Car_Reg_Form_*Picker*" -ValueOnly |
+    ForEach-Object { Set-OutlinedProperty -InputObject $_ -Padding "8" -SetFloatingOffset "1,-18" -SetFloatingScale "0.8" -FontSize 16 }
 
 $CarList = Import-Csv -Path "$PSScriptRoot\Cars.csv"
 Add-ItemToUIControl -UIControl $Car_Reg_Form_Combobox_Make -ItemToAdd ($CarList.Make | Select-Object -Unique | Sort-Object )
@@ -54,42 +50,43 @@ $Cars_Popup_Add_Car.Add_Click({ Set-NavigationRailTab -NavigationRail $NavRail -
 
 [scriptblock]$OnResetCarForm = {
     Get-Variable -Include "Car_Reg_Form_Combobox*" -ValueOnly | ForEach-Object {$_.SelectedItem = $null}
-    Get-Variable -Include "Car_Reg_Form_Textbox*","Car_Reg_Form_DatePicker*","Car_Reg_Form_TimePicker*" -ValueOnly | ForEach-Object { $_.Text = $null }
+    Get-Variable -Include "Car_Reg_Form_Textbox*","Car_Reg_Form_*Picker*" -ValueOnly | ForEach-Object { $_.Text = $null }
     $Car_Reg_Form_RatingBar_Rate.Value = 1
 }
 
 $NavRail.add_SelectionChanged({
     if ($_.Source -like "System.Windows.Controls.TabControl*") {
         switch (Get-NavigationRailSelectedTabName -NavigationRail $NavRail) {
-
-            "CarRegistration"   {   Invoke-Command -Command $OnResetCarForm
-                                    #$Car_Reg_Form_Btn_Apply.IsEnabled = $false 
-                                }
+            "Users"             {  }
+            "Cars"              {  }
+            "CarRegistration"   {  }
+            "Photos"            {  }
+            "Movies"            {  }
         }
     }
 })
 
 $Car_Reg_Form_Btn_Reset.add_Click($OnResetCarForm)
-$Car_Reg_Form_Btn_Cancel.add_Click({ Set-NavigationRailTab -NavigationRail $NavRail -TabName "Cars" })
+$Car_Reg_Form_Btn_Cancel.add_Click({ 
+    Invoke-Command -Command $OnResetCarForm
+    Set-NavigationRailTab -NavigationRail $NavRail -TabName "Cars"
+})
 $Car_Reg_Form_Btn_Apply.add_Click({
     $RowContent = @(
-        $Car_Reg_Form_TextboxShort_Plate.Text
+        $Car_Reg_Form_Textbox_Plate.Text
         $Car_Reg_Form_Combobox_Make.SelectedItem
         $Car_Reg_Form_Combobox_Model.SelectedItem
         $Car_Reg_Form_Combobox_Year.SelectedItem
         $Car_Reg_Form_Textbox_Owner.Text
         $Car_Reg_Form_Combobox_Color.SelectedItem
-        $Car_Reg_Form_TextboxShort_Note.Text
+        $Car_Reg_Form_Textbox_Note.Text
         $Car_Reg_Form_RatingBar_Rate.Value
         $Car_Reg_Form_DatePicker_Registered.Text
         $Car_Reg_Form_TimePicker_Registered.Text
     )
     [void]$Cars_Datatable.Rows.Add($RowContent)
+    Invoke-Command -Command $OnResetCarForm
     Set-NavigationRailTab -NavigationRail $NavRail -TabName "Cars"
 })
-
-
-
-
 
 $Window.ShowDialog() | out-null

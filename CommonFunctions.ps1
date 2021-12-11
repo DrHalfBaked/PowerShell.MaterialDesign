@@ -8,7 +8,7 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 9, 2021  20:00
+#  Last file update:  Dec 11, 2021  13:55
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
@@ -166,28 +166,28 @@ function Add-ItemToUIControl {
 
 function Set-OutlinedProperty {
     param (
-        [System.Management.Automation.PSObject[]]$TextboxObject,
+        [System.Management.Automation.PSObject[]]$InputObject,
         $Padding,                 # "2"
         $SetFloatingOffset,       # "-15, 0"
         $SetFloatingScale,        # "1.2"
         $FontSize
     )
     try {
-        foreach($Textbox in $TextboxObject) {
+        foreach($UIObject in $InputObject) {
             if($Padding){
-                $Textbox.padding = [System.Windows.Thickness]::new($Padding)
+                $UIObject.padding = [System.Windows.Thickness]::new($Padding)
             }
             if($SetFloatingOffset){
-                [MaterialDesignThemes.Wpf.HintAssist]::SetFloatingOffset( $Textbox, $SetFloatingOffset)
+                [MaterialDesignThemes.Wpf.HintAssist]::SetFloatingOffset( $UIObject, $SetFloatingOffset)
             }
             if($SetFloatingScale){
-                [MaterialDesignThemes.Wpf.HintAssist]::SetFloatingScale( $Textbox, $SetFloatingScale)
+                [MaterialDesignThemes.Wpf.HintAssist]::SetFloatingScale( $UIObject, $SetFloatingScale)
             }
             if($FontSize){
-                $Textbox.FontSize = $FontSize
+                $UIObject.FontSize = $FontSize
             }
-            $Textbox.VerticalContentAlignment = "Center"
-            $Textbox.Opacity = "0.75"
+            $UIObject.VerticalContentAlignment = "Center"
+            $UIObject.Opacity = "0.75"
         }
     }
     catch {
