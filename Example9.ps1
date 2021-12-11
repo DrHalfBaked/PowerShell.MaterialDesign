@@ -17,13 +17,13 @@ Get-Variable -Include "Car_Reg_Form_Textbox*","Car_Reg_Form_Combobox*","Car_Reg_
     ForEach-Object { Set-OutlinedProperty -InputObject $_ -Padding "8" -SetFloatingOffset "1,-18" -SetFloatingScale "0.8" -FontSize 16 }
 
 $CarList = Import-Csv -Path "$PSScriptRoot\Cars.csv"
-Add-ItemToUIControl -UIControl $Car_Reg_Form_Combobox_Make -ItemToAdd ($CarList.Make | Select-Object -Unique | Sort-Object )
-Add-ItemToUIControl -UIControl $Car_Reg_Form_Combobox_Color -ItemToAdd ([System.Windows.Media.Colors].Getproperties() | Select-Object -ExpandProperty name | Sort-Object )
-Add-ItemToUIControl -UIControl $Car_Reg_Form_Combobox_Year -ItemToAdd (1990..2021)
+$Car_Reg_Form_Combobox_Make.ItemsSource = ($CarList.Make | Select-Object -Unique | Sort-Object )
+$Car_Reg_Form_Combobox_Color.ItemsSource = ([System.Windows.Media.Colors].Getproperties() | Select-Object -ExpandProperty name | Sort-Object )
+$Car_Reg_Form_Combobox_Year.ItemsSource = (1990..2021)
 
 $Car_Reg_Form_Combobox_Make.add_SelectionChanged({
-    Add-ItemToUIControl -UIControl $Car_Reg_Form_Combobox_Model -Clear
-    Add-ItemToUIControl -UIControl $Car_Reg_Form_Combobox_Model -ItemToAdd ($CarList | Where-Object {$_.Make -eq $Car_Reg_Form_Combobox_Make.SelectedItem }  | Select-Object -ExpandProperty Model | Select-Object -Unique | Sort-Object )
+    $Car_Reg_Form_Combobox_Model.ItemsSource = $null
+    $Car_Reg_Form_Combobox_Model.ItemsSource = ($CarList | Where-Object {$_.Make -eq $Car_Reg_Form_Combobox_Make.SelectedItem }  | Select-Object -ExpandProperty Model | Select-Object -Unique | Sort-Object )
 })
 
 $Cars_Datatable = [System.Data.DataTable]::New()

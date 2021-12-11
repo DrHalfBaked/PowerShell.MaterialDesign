@@ -8,7 +8,7 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 11, 2021  13:55
+#  Last file update:  Dec 11, 2021  17:02
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
@@ -136,31 +136,6 @@ function Open-File {
         return $OutputFile
     } catch {
         Write-error "Error in Open-File common function`n$_"
-    }
-}
-
-function Add-ItemToUIControl {
-    param(
-        [System.Management.Automation.PSObject[]]$UIControl,
-        [System.Management.Automation.PSObject[]]$ItemToAdd,
-        [Switch]$Clear
-    )
-    try{
-        if ($Clear){
-            foreach($Control in $UIControl) {
-                $Control.Items.Clear()
-            }
-        }
-        else {
-            foreach($Control in $UIControl) {
-                foreach ($Item in $ItemToAdd) {
-                    [void] $Control.Items.Add($Item)
-                }
-            }
-        }
-    }
-    catch{
-        Write-Error "Error in Add-ItemToUIControl common function`n$_"
     }
 }
 
