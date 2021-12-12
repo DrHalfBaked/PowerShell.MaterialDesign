@@ -51,7 +51,7 @@ $Cars_Popup_Add_Car.Add_Click({ Set-NavigationRailTab -NavigationRail $NavRail -
 [scriptblock]$OnResetCarForm = {
     Get-Variable -Include "Car_Reg_Form_Combobox*" -ValueOnly | ForEach-Object {$_.SelectedItem = $null}
     Get-Variable -Include "Car_Reg_Form_Textbox*","Car_Reg_Form_*Picker*" -ValueOnly | ForEach-Object { $_.Text = $null }
-    $Car_Reg_Form_RatingBar_Rate.Value = 1
+    $Car_Reg_Form_RatingBar_Rate.Value = 0
 }
 
 $NavRail.add_SelectionChanged({
