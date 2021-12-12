@@ -14,7 +14,7 @@ Get-ChildItem -Path $PSScriptRoot -Filter Common*.PS1 | ForEach-Object {. ($_.Fu
 $Window = New-Window -XamlFile "$PSScriptRoot\Example9.xaml"
 
 Get-Variable -Include "Car_Reg_Form_Textbox*","Car_Reg_Form_Combobox*","Car_Reg_Form_*Picker*" -ValueOnly |
-    ForEach-Object { Set-OutlinedProperty -InputObject $_ -Padding "8" -SetFloatingOffset "1,-18" -SetFloatingScale "0.8" -FontSize 16 }
+    ForEach-Object { Set-OutlinedProperty -InputObject $_ -Padding "8" -FloatingOffset "1,-18" -FloatingScale "0.8" -Opacity "0.75" -FontSize 16 }
 
 $CarList = Import-Csv -Path "$PSScriptRoot\Cars.csv"
 $Car_Reg_Form_Combobox_Make.ItemsSource = ($CarList.Make | Select-Object -Unique | Sort-Object )

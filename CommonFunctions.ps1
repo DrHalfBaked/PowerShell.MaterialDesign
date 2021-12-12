@@ -8,7 +8,7 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 11, 2021  17:02
+#  Last file update:  Dec 12, 2021  05:51
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
@@ -143,8 +143,9 @@ function Set-OutlinedProperty {
     param (
         [System.Management.Automation.PSObject[]]$InputObject,
         $Padding,                 # "2"
-        $SetFloatingOffset,       # "-15, 0"
-        $SetFloatingScale,        # "1.2"
+        $FloatingOffset,       # "-15, 0"
+        $FloatingScale,        # "1.2"
+        $Opacity,                 # "0.75"
         $FontSize
     )
     try {
@@ -152,17 +153,20 @@ function Set-OutlinedProperty {
             if($Padding){
                 $UIObject.padding = [System.Windows.Thickness]::new($Padding)
             }
-            if($SetFloatingOffset){
-                [MaterialDesignThemes.Wpf.HintAssist]::SetFloatingOffset( $UIObject, $SetFloatingOffset)
+            if($FloatingOffset){
+                [MaterialDesignThemes.Wpf.HintAssist]::SetFloatingOffset( $UIObject, $FloatingOffset)
             }
-            if($SetFloatingScale){
-                [MaterialDesignThemes.Wpf.HintAssist]::SetFloatingScale( $UIObject, $SetFloatingScale)
+            if($FloatingScale){
+                [MaterialDesignThemes.Wpf.HintAssist]::SetFloatingScale( $UIObject, $FloatingScale)
             }
             if($FontSize){
                 $UIObject.FontSize = $FontSize
             }
+            if($Opacity){
+                $UIObject.Opacity = $Opacity
+            }
             $UIObject.VerticalContentAlignment = "Center"
-            $UIObject.Opacity = "0.75"
+            
         }
     }
     catch {
