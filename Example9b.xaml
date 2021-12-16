@@ -1,0 +1,242 @@
+<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    Name="MainWindow"
+    Title="Examples"
+    Style="{DynamicResource MaterialDesignWindow}" 
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="CanResize"
+    Height="800"
+    Width="1200"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.FontSize="14"
+    TextElement.FontFamily="Roboto"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    Background="{DynamicResource MaterialDesignPaper}" >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.BlueGrey.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.DeepOrange.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid Name="OverlayLayer" Panel.ZIndex="1000" Visibility="Visible">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                
+                <ToggleButton Name="TglBtn_OpenLeftDrawer" Grid.Row="0" Grid.Column="0" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" Margin="10,0,0,0"/>
+
+                <materialDesign:PopupBox Grid.Row="0" Grid.Column="2" PlacementMode="BottomAndAlignRightEdges" Style="{DynamicResource MaterialDesignToolForegroundPopupBox}">
+                    <materialDesign:PopupBox.ToggleContent>
+                        <materialDesign:PackIcon Kind="DotsVertical" Margin="4,0,4,0" Width="30" Height="30" 
+                            Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=materialDesign:PopupBox}, Path=Foreground}" />
+                    </materialDesign:PopupBox.ToggleContent>
+                    <ListBox>
+                        <ListBoxItem Name="PopUpItemSetting" Content="Settings" Style="{StaticResource MaterialDesignNavigationListBoxItem}" />
+                        <ListBoxItem Name="PopUpItemAbout" Content="About" Style="{StaticResource MaterialDesignNavigationPrimaryListBoxItem}"/>
+                        <ListBoxItem Name="PopUpItemExit" Content="Exit" Style="{StaticResource MaterialDesignNavigationAccentListBoxItem}"/>
+                    </ListBox>
+                </materialDesign:PopupBox>
+
+                <materialDesign:DrawerHost LeftDrawerCloseOnClickAway="True" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" OpenMode="Modal"
+                    Name="DrawerHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" Opacity="1">
+                    <materialDesign:DrawerHost.LeftDrawerContent>
+                        <StackPanel Width="240" >
+                            <ToggleButton Name="TglBtn_CloseLeftDrawer" Style="{StaticResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Right" IsChecked="False" Margin="0,15,10,20" />
+                            <ListBox Name="LeftDrawer_Menu_LstBox" Grid.Row="2" Style="{StaticResource MaterialDesignListBox}" >
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                        <Setter Property="FontWeight" Value="Medium" />
+                                        <Setter Property="FontSize" Value="16" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                    <ListBoxItem Content="1111111" />
+                                    <ListBoxItem Content="2222222"  />
+                                    <ListBoxItem Content="3333333" />
+                            </ListBox>
+                        </StackPanel>
+                    </materialDesign:DrawerHost.LeftDrawerContent>
+                </materialDesign:DrawerHost>
+            </Grid>
+        </Grid>
+
+        <TabControl Name="NavRail" Style="{StaticResource MaterialDesignNavigatilRailTabControl}" TabStripPlacement="Top"
+            materialDesign:ShadowAssist.ShadowDepth="Depth3" 
+            materialDesign:ColorZoneAssist.Mode="PrimaryLight"
+            materialDesign:NavigationRailAssist.SelectionCornerRadius="50 10 10 10" 
+            materialDesign:NavigationRailAssist.ShowSelectionBackground="True">
+            <materialDesign:NavigationRailAssist.FloatingContent>  
+                <TextBlock Name="ImJustPushingTheHeaderToTheRight" Width="60" Visibility="Hidden" />
+            </materialDesign:NavigationRailAssist.FloatingContent>
+            <TabItem Name="Users" >
+                <TabItem.Header>
+                    <StackPanel Height="auto" Width="auto">
+                        <materialDesign:PackIcon Kind="AccountMultipleOutline" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="Users" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+                <TextBlock Text="Users Page" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+            </TabItem>
+            <TabItem Name="CarRegistration" Visibility="Collapsed">
+                <TabItem.Header>
+                    <StackPanel Height="auto" Width="auto">
+                        <materialDesign:PackIcon Kind="CarOutline" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="Cars" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+                <materialDesign:Card Height="500" Width="480" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Car Registration" Grid.Row="0" Padding="20" FontWeight="Bold" Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+                    <Grid Grid.Row="1" Name="CarRegForm" Margin="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition MaxWidth="40" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition MaxWidth="40" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Height="30" Grid.Row="1" Visibility="Hidden" />
+                        <TextBlock Height="30" Grid.Row="3" Visibility="Hidden" />
+                        <TextBlock Height="30" Grid.Row="5" Visibility="Hidden" />
+                        <TextBlock Height="30" Grid.Row="7" Visibility="Hidden" />
+                        <TextBlock Width="40" Grid.Column="1" Visibility="Hidden" />
+                        <TextBlock Width="40" Grid.Column="3" Visibility="Hidden" />
+                        
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Make" Grid.Column="0" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Make"  />
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Model" Grid.Column="2" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Model" />
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Year" Grid.Column="4" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Year" />
+                        
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Color" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Color" />
+                        <materialDesign:TimePicker Name="Car_Reg_Form_TimePicker_Registered" Grid.Column="4" Grid.Row="2"  Style="{StaticResource MaterialDesignOutlinedTimePicker}" 
+                            materialDesign:HintAssist.Hint="Reg.Time" Text="{Binding txt}" />
+
+                        <TextBox Name="Car_Reg_Form_TextBox_Owner" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Validation.ErrorTemplate="{StaticResource MaterialDesignValidationErrorTemplate}" Text="{Binding txt}"
+                            materialDesign:HintAssist.Hint="Car Owner" materialDesign:HintAssist.HelperText="* Required Field" />
+                        <DatePicker Name="Car_Reg_Form_DatePicker_Registered" Grid.Column="4" Grid.Row="4"  Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Reg.Date"/>
+                        
+                        <TextBox Name="Car_Reg_Form_TextBox_Plate" Grid.Column="0" Grid.Row="6" materialDesign:HintAssist.Hint="License Plate" Text="{Binding txt}"
+                            Validation.ErrorTemplate="{StaticResource MaterialDesignValidationErrorTemplate}"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:TextFieldAssist.SuffixText="*" />
+                        <TextBlock Name="Car_Reg_Form_TextBlock_Rate" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Rate this car" Margin="0,0,10,0" FontSize="16" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2"/>
+                        <materialDesign:RatingBar Name="Car_Reg_Form_RatingBar_Rate" Orientation="Horizontal" VerticalAlignment="Center" Foreground="Gold"  Grid.Column="4" Grid.Row="6" />
+
+                        <TextBox Name="Car_Reg_Form_TextBox_Note" Grid.Column="0" Grid.Row="8"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Note" Grid.ColumnSpan="5"/>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Margin="0,20,10,0">
+                        <Button Name="Car_Reg_Form_Btn_Reset" Style="{StaticResource MaterialDesignFlatLightBgButton}" Content="Reset" Width="80" Margin="10" />
+                        <Button Name="Car_Reg_Form_Btn_Cancel" Style="{StaticResource MaterialDesignFlatLightBgButton}" Content="Cancel" Width="80" Margin="10" />
+                        <Button Name="Car_Reg_Form_Btn_Apply" Style="{StaticResource MaterialDesignFlatLightBgButton}" Content="Apply" Width="80" Margin="10" />
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+
+            </TabItem>
+            <TabItem Name="Cars">
+                <TabItem.Header>
+                    <StackPanel Height="auto" Width="auto">
+                        <materialDesign:PackIcon Kind="Images" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="Cars" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="150" />
+                </Grid.RowDefinitions>
+                    <DataGrid Name="Cars_DataGrid" Grid.Row="0" SelectionMode="Single" AutoGenerateColumns="False" SelectionUnit="FullRow" CanUserAddRows="False" IsReadOnly="True"
+                                GridLinesVisibility="Horizontal" CanUserReorderColumns="True" Width="1000" MinHeight="200" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                materialDesign:DataGridAssist.CellPadding="20,10,0,10" materialDesign:DataGridAssist.ColumnHeaderPadding="20,5,0,5">
+                                
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Make"  Binding="{Binding Make}"  />
+                            <DataGridTextColumn Header="Model" Binding="{Binding Model}" />
+                            <DataGridTextColumn Header="Year" Binding="{Binding Year}" />
+                            <DataGridTextColumn Header="Color" Binding="{Binding Color}" />
+                            <DataGridTextColumn Header="Owner" Binding="{Binding Owner}" />
+                            <DataGridTextColumn Header="Plate" Binding="{Binding Plate}" />
+                            <DataGridTextColumn Header="Note" Binding="{Binding Note}" />
+                            <DataGridTextColumn Header="Date.Reg" Binding="{Binding DateReg}" />
+                            <DataGridTextColumn Header="Time.Reg" Binding="{Binding TimeReg}" />
+                            <DataGridTemplateColumn Header="Rating" SortMemberPath="Rating" ClipboardContentBinding="{Binding Rating}" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <materialDesign:RatingBar Orientation="Horizontal" VerticalAlignment="Center" Foreground="Gold" Value="{Binding Rating}" IsReadOnly="True" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <materialDesign:PopupBox Grid.Row="1" Style="{StaticResource MaterialDesignMultiFloatingActionAccentPopupBox}" PlacementMode="TopAndAlignCentres" HorizontalAlignment="Left" Margin="20" >
+                        <materialDesign:PopupBox.ToggleCheckedContent>
+                            <materialDesign:PackIcon Kind="Car" Width="24" Height="24" />
+                        </materialDesign:PopupBox.ToggleCheckedContent>
+                            <StackPanel>
+                                <Button Name="Cars_Popup_Add_Car" ToolTip="Add New Car">
+                                    <materialDesign:PackIcon Kind="PlaylistPlus" Width="24" Height="24" />
+                                </Button>
+                                <Button Name="Cars_Popup_Edit_Car" ToolTip="Edit Car" IsEnabled="False" >
+                                    <materialDesign:PackIcon Kind="Pencil" Width="24" Height="24" />
+                                </Button>
+                                <Button Name="Cars_Popup_Delete_Car" ToolTip="Delete Car" IsEnabled="False" >
+                                    <materialDesign:PackIcon Kind="Delete" Width="24" Height="24" />
+                                </Button>
+                            </StackPanel>
+                    </materialDesign:PopupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Name="Photos">
+                <TabItem.Header>
+                    <StackPanel Height="auto" Width="auto">
+                        <materialDesign:PackIcon Kind="Images" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="Photos" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+                <TextBlock Text="Photos Page" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+            </TabItem>
+            <TabItem Name="Movies">
+                <TabItem.Header>
+                    <StackPanel Height="auto" Width="auto">
+                        <materialDesign:PackIcon Kind="MovieOpenPlayOutline" Width="24" Height="24" HorizontalAlignment="Center" />
+                        <TextBlock Text="Movies" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </TabItem.Header>
+                <TextBlock Text="Movies Page" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
