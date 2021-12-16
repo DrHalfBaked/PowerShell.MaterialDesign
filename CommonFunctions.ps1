@@ -8,7 +8,7 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 12, 2021  05:51
+#  Last file update:  Dec 16, 2021  21:13
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
@@ -171,5 +171,48 @@ function Set-OutlinedProperty {
     }
     catch {
         Write-Error "Error in Set-OutlinedProperty common function`n$_"
+    }
+}
+
+
+function Set-ValidationError {
+    param (
+        $ErrorText,
+        [switch]$ClearInvalid
+    )
+    #https://coderedirect.com/questions/546371/setting-validation-error-template-from-code-in-wpf
+    # !!! you must put  Text="{Binding txt}" in the textbox xaml code.
+    
+    $ClassProperty = 
+        switch($this.GetType().name) {
+            "TextBox" {[System.Windows.Controls.TextBox]::TextProperty}
+            "TimePicker" {[MaterialDesignThemes.Wpf.TimePicker]::TextProperty}
+    }
+    [System.Windows.Data.BindingExpression]$bindingExpression =  [System.Windows.Data.BindingOperations]::GetBindingExpression( $this, $ClassProperty)
+    [System.Windows.Data.BindingExpressionBase]$bindingExpressionBase = [System.Windows.Data.BindingOperations]::GetBindingExpressionBase($this, $ClassProperty);
+    [System.Windows.Controls.ValidationError]$validationError = [System.Windows.Controls.ValidationError]::new([System.Windows.Controls.ExceptionValidationRule]::New(),$bindingExpression)
+    <#
+    #This option will put the error message on either Absolute,AbsolutPoint,Bottom,Center,Custom,Left,Right,Top,MousePoint,Mouse,Relative,RelativePoint. Default is bottom.
+    [MaterialDesignThemes.Wpf.ValidationAssist]::SetUsePopup($TB,$true)
+    [MaterialDesignThemes.Wpf.ValidationAssist]::SetPopupPlacement($TB,[System.Windows.Controls.Primitives.PlacementMode]::Left)
+    #>
+    if ($ClearInvalid){
+        [System.Windows.Controls.Validation]::ClearInvalid($bindingExpressionBase)
+    }
+    else{
+        $validationError.ErrorContent = $ErrorText
+        [System.Windows.Controls.Validation]::MarkInvalid($bindingExpressionBase,$validationError)
+    }
+}
+
+function Test-RequiredField {
+    param (
+        $ErrorText = "This field is mandatory"
+    )
+    if (!$this.Text) {
+        Set-ValidationError -ErrorText $ErrorText
+    }
+    else {
+        Set-ValidationError -ClearInvalid
     }
 }
