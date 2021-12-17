@@ -8,11 +8,22 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 16, 2021  21:13
+#  Last file update:  Dec 17, 2021  21:12
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignColors.dll")
+
+[regex]$Script:RegEx_Numbers           = '^[0-9]*$'
+[regex]$Script:RegEx_AlphaNumeric      = '^[a-zA-Z0-9]*$'
+[regex]$Script:RegEx_Letters           = '^[a-zA-Z]*$'
+[regex]$Script:RegEx_AlphaNumericSpaceUnderscore = '^[\s_a-zA-Z0-9]*$'
+[regex]$Script:RegEx_NoteChars         = '^[\s_\"\.\-,a-zA-Z0-9]*$'
+[regex]$Script:RegEx_EmailChars        = '^[\@\.\-a-zA-Z0-9]*$'
+[regex]$Script:RegEx_EmailPattern      = '^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
+[regex]$Script:RegEx_NumbersDash       = '^[\-0-9]*$'
+
+
 
 function New-Window {
     param (
@@ -188,6 +199,7 @@ function Set-ValidationError {
     param (
         $UIObject,
         $ErrorText,
+        [switch]$CheckHasError,
         [switch]$ClearInvalid
     )
     #https://coderedirect.com/questions/546371/setting-validation-error-template-from-code-in-wpf
@@ -215,43 +227,50 @@ function Set-ValidationError {
     [MaterialDesignThemes.Wpf.ValidationAssist]::SetUsePopup($UIObject,$true)
     [MaterialDesignThemes.Wpf.ValidationAssist]::SetPopupPlacement($UIObject,[System.Windows.Controls.Primitives.PlacementMode]::Top)
     #>
-    if ($ClearInvalid){
-        [System.Windows.Controls.Validation]::ClearInvalid($bindingExpressionBase)
+    if($CheckHasError){
+        return [System.Windows.Controls.Validation]::GetHasError($UIObject)
     }
-    else{
-        $validationError.ErrorContent = $ErrorText
-        [System.Windows.Controls.Validation]::MarkInvalid($bindingExpressionBase,$validationError)
+    else {
+        if ($ClearInvalid){
+        [System.Windows.Controls.Validation]::ClearInvalid($bindingExpressionBase)
+        }
+        else{
+            $validationError.ErrorContent = $ErrorText
+            [System.Windows.Controls.Validation]::MarkInvalid($bindingExpressionBase,$validationError)
+        }
     }
 }
 
 function Confirm-RequiredField {
     param (
-        $ErrorText = "This field is mandatory"
+    $UI_Object = $this,
+    $ErrorText = "This field is mandatory"
     )
-    if (!$this.Text) {
-        Set-ValidationError -UIObject $this -ErrorText $ErrorText 
+    if (!$UI_Object.Text) {
+        Set-ValidationError -UIObject $UI_Object -ErrorText $ErrorText 
     }
     else {
-        Set-ValidationError -UIObject $this -ClearInvalid 
+        Set-ValidationError -UIObject $UI_Object -ClearInvalid 
     }
 }
 
-function Confirm-TextPattern {
+function Confirm-TextPatternField {
     param (
+        $UI_Object = $this,
         $ErrorText = "Invalid Value",
         [regex[]]$Regex
     )
     $IsValid = $false
     foreach ($Pattern in $Regex) {
-        if ($this.Text -match $Pattern) {
+        if ($UI_Object.Text -match $Pattern) {
             $IsValid = $true
             break
         }
     }
     if ($IsValid){
-        Set-ValidationError -UIObject $this -ClearInvalid 
+        Set-ValidationError -UIObject $UI_Object -ClearInvalid 
     }
     else {
-        Set-ValidationError -UIObject $this -ErrorText $ErrorText 
+        Set-ValidationError -UIObject $UI_Object -ErrorText $ErrorText 
     }
 }
