@@ -139,12 +139,22 @@ function Open-File {
     }
 }
 
+function Set-CurrentCulture { 
+    param(
+        $LCID = 2057
+    )
+    #  2057 = English (UK)   ,  1033 = English (US)  
+    $culture = [System.Globalization.CultureInfo]::GetCultureInfo($LCID)
+    [System.Threading.Thread]::CurrentThread.CurrentUICulture = $culture
+    [System.Threading.Thread]::CurrentThread.CurrentCulture = $culture
+}
+
 function Set-OutlinedProperty {
     param (
         [System.Management.Automation.PSObject[]]$InputObject,
         $Padding,                 # "2"
-        $FloatingOffset,       # "-15, 0"
-        $FloatingScale,        # "1.2"
+        $FloatingOffset,          # "-15, 0"
+        $FloatingScale,           # "1.2"
         $Opacity,                 # "0.75"
         $FontSize
     )
@@ -174,27 +184,36 @@ function Set-OutlinedProperty {
     }
 }
 
-
 function Set-ValidationError {
     param (
+        $UIObject,
         $ErrorText,
         [switch]$ClearInvalid
     )
     #https://coderedirect.com/questions/546371/setting-validation-error-template-from-code-in-wpf
     # !!! you must put  Text="{Binding txt}" in the textbox xaml code.
-    
     $ClassProperty = 
-        switch($this.GetType().name) {
-            "TextBox" {[System.Windows.Controls.TextBox]::TextProperty}
-            "TimePicker" {[MaterialDesignThemes.Wpf.TimePicker]::TextProperty}
+        switch($UIObject.GetType().name) {
+            "TextBox"     {[System.Windows.Controls.TextBox]::TextProperty}
+            "ComboBox"    {[System.Windows.Controls.ComboBox]::SelectedItemProperty}
+            "TimePicker"  {[MaterialDesignThemes.Wpf.TimePicker]::TextProperty}
+            "DatePicker"  {[System.Windows.Controls.DatePicker]::SelectedDateProperty}
+            # For RatingBar - you must put this in the xaml part --> Value="{Binding Path=BlaBla, Mode=TwoWay}" . Also don't use the Validation.ErrorTemplate attribute. It will show red border, no text.
+            "RatingBar"   {[MaterialDesignThemes.Wpf.RatingBar]::ValueProperty}
+            #"Calendar"    {[System.Windows.Controls.Calendar]::SelectedDateProperty}   Wasn't tested yet
+            #"ListBox"     {[System.Windows.Controls.ListBox]::SelectedItemProperty}    Wasn't tested yet
+            #"RadioButton" {[System.Windows.Controls.RadioButton]::IsCheckedProperty}   Wasn't tested yet
+            # "PasswordBox" {[system.Windows.Controls.PasswordBox]::Password}           Wasn't tested yet
+            #"RichTextBox" {[System.Windows.Controls.RichTextBox]::Document}            Wasn't tested yet
+
     }
-    [System.Windows.Data.BindingExpression]$bindingExpression =  [System.Windows.Data.BindingOperations]::GetBindingExpression( $this, $ClassProperty)
-    [System.Windows.Data.BindingExpressionBase]$bindingExpressionBase = [System.Windows.Data.BindingOperations]::GetBindingExpressionBase($this, $ClassProperty);
+    [System.Windows.Data.BindingExpression]$bindingExpression =  [System.Windows.Data.BindingOperations]::GetBindingExpression( $UIObject, $ClassProperty)
+    [System.Windows.Data.BindingExpressionBase]$bindingExpressionBase = [System.Windows.Data.BindingOperations]::GetBindingExpressionBase($UIObject, $ClassProperty);
     [System.Windows.Controls.ValidationError]$validationError = [System.Windows.Controls.ValidationError]::new([System.Windows.Controls.ExceptionValidationRule]::New(),$bindingExpression)
-    <#
-    #This option will put the error message on either Absolute,AbsolutPoint,Bottom,Center,Custom,Left,Right,Top,MousePoint,Mouse,Relative,RelativePoint. Default is bottom.
-    [MaterialDesignThemes.Wpf.ValidationAssist]::SetUsePopup($TB,$true)
-    [MaterialDesignThemes.Wpf.ValidationAssist]::SetPopupPlacement($TB,[System.Windows.Controls.Primitives.PlacementMode]::Left)
+    
+    <# This option will put the error message on either Absolute,AbsolutPoint,Bottom,Center,Custom,Left,Right,Top,MousePoint,Mouse,Relative,RelativePoint. Default is bottom.
+    [MaterialDesignThemes.Wpf.ValidationAssist]::SetUsePopup($UIObject,$true)
+    [MaterialDesignThemes.Wpf.ValidationAssist]::SetPopupPlacement($UIObject,[System.Windows.Controls.Primitives.PlacementMode]::Top)
     #>
     if ($ClearInvalid){
         [System.Windows.Controls.Validation]::ClearInvalid($bindingExpressionBase)
@@ -205,14 +224,34 @@ function Set-ValidationError {
     }
 }
 
-function Test-RequiredField {
+function Confirm-RequiredField {
     param (
         $ErrorText = "This field is mandatory"
     )
     if (!$this.Text) {
-        Set-ValidationError -ErrorText $ErrorText
+        Set-ValidationError -UIObject $this -ErrorText $ErrorText 
     }
     else {
-        Set-ValidationError -ClearInvalid
+        Set-ValidationError -UIObject $this -ClearInvalid 
+    }
+}
+
+function Confirm-TextPattern {
+    param (
+        $ErrorText = "Invalid Value",
+        [regex[]]$Regex
+    )
+    $IsValid = $false
+    foreach ($Pattern in $Regex) {
+        if ($this.Text -match $Pattern) {
+            $IsValid = $true
+            break
+        }
+    }
+    if ($IsValid){
+        Set-ValidationError -UIObject $this -ClearInvalid 
+    }
+    else {
+        Set-ValidationError -UIObject $this -ErrorText $ErrorText 
     }
 }

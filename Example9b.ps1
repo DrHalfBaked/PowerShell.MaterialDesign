@@ -11,7 +11,7 @@
 Get-ChildItem -Path $PSScriptRoot -Filter Common*.PS1 | ForEach-Object {. ($_.FullName)}
 
 $Window = New-Window -XamlFile "$PSScriptRoot\Example9b.xaml"
-
+Set-CurrentCulture
 # Car form setup
 Get-Variable -Include "Car_Reg_Form_Textbox*","Car_Reg_Form_Combobox*","Car_Reg_Form_*Picker*" -ValueOnly |
     ForEach-Object { Set-OutlinedProperty -InputObject $_ -Padding "8" -FloatingOffset "1,-18" -FloatingScale "0.8" -Opacity "0.75" -FontSize 16 }
@@ -31,6 +31,8 @@ $Car_Reg_Form_Combobox_Make.add_SelectionChanged({
     Get-Variable -Include "Car_Reg_Form_Combobox*" -ValueOnly | ForEach-Object {$_.SelectedItem = $null}
     Get-Variable -Include "Car_Reg_Form_Textbox*","Car_Reg_Form_*Picker*" -ValueOnly | ForEach-Object { $_.Text = $null }
     $Car_Reg_Form_RatingBar_Rate.Value = 0
+    Get-Variable -Include "Car_Reg_Form_Textbox*","Car_Reg_Form_Combobox*","Car_Reg_Form_*Picker*" -ValueOnly | ForEach-Object {Set-ValidationError -UIObject $_ -ClearInvalid}
+    #Set-ValidationError -UIObject $Car_Reg_Form_RatingBar_Rate -ErrorText $ErrorText "bobo"
 }
 
 $Car_Reg_Form_Btn_Reset.add_Click($OnResetCarForm)
@@ -85,7 +87,7 @@ $NavRail.add_SelectionChanged({
         switch (Get-NavigationRailSelectedTabName -NavigationRail $NavRail) {
             "Users"             {  }
             "Cars"              {  }
-            "CarRegistration"   {  }
+            "CarRegistration"   { Invoke-Command -command $OnResetCarForm }
             "Photos"            {  }
             "Movies"            {  }
         }
@@ -103,11 +105,21 @@ $Car_Reg_Form_TextBox_Plate.add_PreviewTextInput({
 })
 
 
-$Car_Reg_Form_TextBox_Plate,$Car_Reg_Form_TextBox_Owner | 
-    Foreach-Object {    $_.add_LostFocus({ Test-RequiredField })
-                        $_.add_TextChanged({ Test-RequiredField })}
+$Car_Reg_Form_TextBox_Plate.add_LostFocus({ 
+    Confirm-RequiredField
+    Confirm-TextPattern -Regex '^[0-9]{2}-[0-9]{3}-[0-9]{2}$','^[0-9]{3}-[0-9]{2}-[0-9]{3}$' -ErrorText "Invalid plate number format"
+})
+$Car_Reg_Form_TextBox_Plate.add_TextChanged({ 
+    Confirm-RequiredField 
+    Confirm-TextPattern -Regex '^[0-9]{2}-[0-9]{3}-[0-9]{2}$','^[0-9]{3}-[0-9]{2}-[0-9]{3}$' -ErrorText "Invalid plate number format"
+})
 
-
-$Car_Reg_Form_TimePicker_Registered.add_LostFocus({ Test-RequiredField })
+$Car_Reg_Form_TextBox_Owner.add_LostFocus({ Confirm-RequiredField })
+$Car_Reg_Form_TextBox_Owner.add_TextChanged({ Confirm-RequiredField })
+$Car_Reg_Form_TimePicker_Registered.add_LostFocus({ Confirm-RequiredField })
+$Car_Reg_Form_TimePicker_Registered.add_SelectedTimeChanged({ Confirm-RequiredField })
+$Car_Reg_Form_DatePicker_Registered.add_LostFocus({ Confirm-RequiredField })
+$Car_Reg_Form_DatePicker_Registered.add_SelectedDateChanged({ Confirm-RequiredField })
+Get-Variable -Include "Car_Reg_Form_Combobox*" -ValueOnly | ForEach-Object {$_.add_LostFocus({ Confirm-RequiredField })}
 
 $Window.ShowDialog() | out-null

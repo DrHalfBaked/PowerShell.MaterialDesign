@@ -136,26 +136,34 @@
                         <TextBlock Width="40" Grid.Column="1" Visibility="Hidden" />
                         <TextBlock Width="40" Grid.Column="3" Visibility="Hidden" />
                         
-                        <ComboBox Name="Car_Reg_Form_ComboBox_Make" Grid.Column="0" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Make"  />
-                        <ComboBox Name="Car_Reg_Form_ComboBox_Model" Grid.Column="2" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Model" />
-                        <ComboBox Name="Car_Reg_Form_ComboBox_Year" Grid.Column="4" Grid.Row="0" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Year" />
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Make" Grid.Column="0" Grid.Row="0" SelectedItem="{Binding txt}" Style="{StaticResource MaterialDesignOutlinedComboBox}" 
+                            materialDesign:HintAssist.Hint="Make"  />
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Model" Grid.Column="2" Grid.Row="0" SelectedItem="{Binding txt}" Style="{StaticResource MaterialDesignOutlinedComboBox}" 
+                            materialDesign:HintAssist.Hint="Model" />
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Year" Grid.Column="4" Grid.Row="0" SelectedItem="{Binding txt}" Style="{StaticResource MaterialDesignOutlinedComboBox}" 
+                            materialDesign:HintAssist.Hint="Year" />
                         
-                        <ComboBox Name="Car_Reg_Form_ComboBox_Color" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Color" />
+                        <ComboBox Name="Car_Reg_Form_ComboBox_Color" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" SelectedItem="{Binding txt}" Style="{StaticResource MaterialDesignOutlinedComboBox}" 
+                            materialDesign:HintAssist.Hint="Color" />
                         <materialDesign:TimePicker Name="Car_Reg_Form_TimePicker_Registered" Grid.Column="4" Grid.Row="2"  Style="{StaticResource MaterialDesignOutlinedTimePicker}" 
-                            materialDesign:HintAssist.Hint="Reg.Time" Text="{Binding txt}" />
+                            materialDesign:HintAssist.Hint="Reg.Time" Text="{Binding txt}" Validation.ErrorTemplate="{StaticResource MaterialDesignValidationErrorTemplate}" />
 
                         <TextBox Name="Car_Reg_Form_TextBox_Owner" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                            Validation.ErrorTemplate="{StaticResource MaterialDesignValidationErrorTemplate}" Text="{Binding txt}"
+                            Validation.ErrorTemplate="{StaticResource MaterialDesignValidationErrorTemplate}" Text="{Binding txt}" MaxLength="20"
                             materialDesign:HintAssist.Hint="Car Owner" materialDesign:HintAssist.HelperText="* Required Field" />
-                        <DatePicker Name="Car_Reg_Form_DatePicker_Registered" Grid.Column="4" Grid.Row="4"  Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Reg.Date"/>
+                        <DatePicker Name="Car_Reg_Form_DatePicker_Registered" Grid.Column="4" Grid.Row="4" SelectedDate="{Binding txt}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" 
+                            Validation.ErrorTemplate="{StaticResource MaterialDesignValidationErrorTemplate}" materialDesign:HintAssist.Hint="Reg.Date"/>
                         
                         <TextBox Name="Car_Reg_Form_TextBox_Plate" Grid.Column="0" Grid.Row="6" materialDesign:HintAssist.Hint="License Plate" Text="{Binding txt}"
-                            Validation.ErrorTemplate="{StaticResource MaterialDesignValidationErrorTemplate}"
+                            Validation.ErrorTemplate="{StaticResource MaterialDesignValidationErrorTemplate}" materialDesign:HintAssist.HelperText="Valid formats: 00-000-00 or 000-00-000"
                             Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:TextFieldAssist.SuffixText="*" />
-                        <TextBlock Name="Car_Reg_Form_TextBlock_Rate" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Rate this car" Margin="0,0,10,0" FontSize="16" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2"/>
-                        <materialDesign:RatingBar Name="Car_Reg_Form_RatingBar_Rate" Orientation="Horizontal" VerticalAlignment="Center" Foreground="Gold"  Grid.Column="4" Grid.Row="6" />
+                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Text="Rate this car" Margin="0,0,10,0" 
+                            FontSize="16" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" />
+                        <materialDesign:RatingBar Name="Car_Reg_Form_RatingBar_Rate" Orientation="Horizontal" VerticalAlignment="Center" Foreground="Gold"  Grid.Column="4" Grid.Row="6" 
+                            Value="{Binding Path=BlaBla, Mode=TwoWay}" />
 
-                        <TextBox Name="Car_Reg_Form_TextBox_Note" Grid.Column="0" Grid.Row="8"  Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Note" Grid.ColumnSpan="5"/>
+                        <TextBox Name="Car_Reg_Form_TextBox_Note" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="5" Style="{StaticResource MaterialDesignOutlinedTextBox}" MaxLength="50"
+                            Validation.ErrorTemplate="{StaticResource MaterialDesignValidationErrorTemplate}" materialDesign:HintAssist.Hint="Note" Text="{Binding txt}" />
                     </Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Margin="0,20,10,0">
                         <Button Name="Car_Reg_Form_Btn_Reset" Style="{StaticResource MaterialDesignFlatLightBgButton}" Content="Reset" Width="80" Margin="10" />
