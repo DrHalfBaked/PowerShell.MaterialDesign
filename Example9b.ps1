@@ -103,16 +103,16 @@ $NavRail.add_SelectionChanged({
     }
 })
 
-$Car_Reg_Form_TextBox_Plate.add_PreviewTextInput({ 
-    $_.Handled = ($_.Text) -notmatch $RegEx_NumbersDash
+$Car_Reg_Form_TextBox_Plate.add_TextChanged( { 
+    Confirm-TextInput -RegexPattern $RegEx_NumbersDash
 })
 
-$Car_Reg_Form_TextBox_Owner.add_PreviewTextInput({ 
-    $_.Handled = ($_.Text) -notmatch $RegEx_AlphaNumericSpaceUnderscore
+$Car_Reg_Form_TextBox_Owner.add_TextChanged( { 
+    Confirm-TextInput -RegexPattern $RegEx_LettersSpace -ToUpper
 })
 
-$Car_Reg_Form_Textbox_Note.add_PreviewTextInput({ 
-    $_.Handled = ($_.Text) -notmatch $RegEx_NoteChars
+$Car_Reg_Form_Textbox_Note.add_TextChanged( { 
+    Confirm-TextInput -RegexPattern $RegEx_NoteChars
 })
 
 $Car_Reg_Form_TextBox_Plate.add_LostFocus({ 

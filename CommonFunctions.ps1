@@ -8,7 +8,7 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 17, 2021  21:12
+#  Last file update:  Dec 18, 2021  08:26
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
@@ -17,6 +17,7 @@
 [regex]$Script:RegEx_Numbers           = '^[0-9]*$'
 [regex]$Script:RegEx_AlphaNumeric      = '^[a-zA-Z0-9]*$'
 [regex]$Script:RegEx_Letters           = '^[a-zA-Z]*$'
+[regex]$Script:RegEx_LettersSpace      = '^[\sa-zA-Z]*$'
 [regex]$Script:RegEx_AlphaNumericSpaceUnderscore = '^[\s_a-zA-Z0-9]*$'
 [regex]$Script:RegEx_NoteChars         = '^[\s_\"\.\-,a-zA-Z0-9]*$'
 [regex]$Script:RegEx_EmailChars        = '^[\@\.\-a-zA-Z0-9]*$'
@@ -273,4 +274,20 @@ function Confirm-TextPatternField {
     else {
         Set-ValidationError -UIObject $UI_Object -ErrorText $ErrorText 
     }
+}
+
+function  Confirm-TextInput {
+    param(
+        $UI_Object = $this,
+        $RegexPattern,
+        [switch]$ToUpper
+    )
+    $SelectionStart = $UI_Object.SelectionStart
+    $TextLength = ($UI_Object.text).length
+    $TmpArray = $UI_Object.text.ToCharArray()
+    $Output = $TmpArray | ForEach-Object { $_ | Where-Object { $_ -match $RegexPattern } }
+    $UI_Object.text = if($ToUpper) {(-join $Output).ToUpper()} else {(-join $Output)}
+    if ( ($UI_Object.text).length -lt $TextLength ) {
+        $UI_Object.SelectionStart = $SelectionStart - 1
+    } else { $UI_Object.SelectionStart = $SelectionStart }     
 }
