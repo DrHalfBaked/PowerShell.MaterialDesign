@@ -8,7 +8,7 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 22, 2021  18:10
+#  Last file update:  Dec 22, 2021  20:58
 #
 
 [System.Collections.ArrayList]$ThemePrimaryColors = [System.Enum]::GetNames([MaterialDesignColors.PrimaryColor])
@@ -20,7 +20,7 @@ $ThemeSecondaryColors.Sort()
 
 # Set-Theme                         - Sets the window theme colors and mode
 # Get-ThemeMode                     - Returns the given app window theme mode ("Dark" or "Light")
-# Get-WinOSAppsTheme                - Will return "Dark" or "Light" based on the current apps theme mode set in windows registry
+# Get-SystemTheme                   - Will return "Dark" or "Light" based on the current apps theme mode set in windows OS
 
 function  Set-Theme {
     param(
@@ -54,9 +54,6 @@ function  Get-ThemeMode {
     return [MaterialDesignThemes.Wpf.ThemeExtensions]::GetBaseTheme($Theme)
 }
 
-function Get-WinOSAppsTheme {
-    $ThemeMode = Get-ItemPropertyValue -Path Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize -name AppsUseLightTheme -ErrorAction SilentlyContinue
-    if ($ThemeMode -eq 0) {return "Dark"}
-    elseif ($ThemeMode -eq 1) {return "Light"}
-    else {return $null}
+function Get-SystemTheme {
+    return [MaterialDesignThemes.Wpf.Theme]::GetSystemTheme()
 }
