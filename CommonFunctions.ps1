@@ -8,7 +8,7 @@
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 22, 2021  12:22
+#  Last file update:  Dec 22, 2021  18:10
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
@@ -32,7 +32,6 @@
 # Get-OpenFilePath                  - Opens a open-file windows dialog and returns the name and path of the file to be opened.
 # Open-File                         - Opens a file and gets its content based on the FileType parameter. default is Get-Content.
 # Set-CurrentCulture                - Sets the PS Session's culture. All Time and Date UI controls will be effected by that. (DatePicker for example).
-# Get-WinOSAppsTheme                - Will return "Dark" or "Light" based on the current apps theme mode set in windows registry
 # Set-OutlinedProperty              - Alters the visual style of some properties of a Material Design outlined UI control.
 # Set-ValidationError               - (1)Marks/Clears an element's validity, (2)Will return an element vaildity state, (3)Will set an error message for invalid element.
 # Confirm-RequiredField             - Will call Set-ValidationError to Mark/Clear an element if its text is $null or not respectively.
@@ -174,12 +173,6 @@ function Set-CurrentCulture {
     [System.Threading.Thread]::CurrentThread.CurrentCulture = $culture
 }
 
-function Get-WinOSAppsTheme {
-    $ThemeMode = Get-ItemPropertyValue -Path Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize -name AppsUseLightTheme -ErrorAction SilentlyContinue
-    if ($ThemeMode -eq 0) {return "Dark"}
-    elseif ($ThemeMode -eq 1) {return "Light"}
-    else {return $null}
-}
 
 function Set-OutlinedProperty {
     param (

@@ -68,26 +68,6 @@
                                 <RowDefinition Height="125" />
                             </Grid.RowDefinitions>
                             <ToggleButton Name="LeftDrawer_Close_TglBtn" Grid.Row="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Right" IsChecked="False" Width="25" Height="25" Margin="0,3,10,0" />
-                            <materialDesign:Chip Content="Mr. Bean" Grid.Row="1" HorizontalAlignment="Center">
-                                <materialDesign:Chip.Icon>
-                                    <Image Name="LeftDrawer_Chip_Img" >
-                                        <Image.RenderTransform>
-                                            <ScaleTransform />
-                                        </Image.RenderTransform>
-                                    </Image>
-                                </materialDesign:Chip.Icon>
-                            </materialDesign:Chip>
-                            <ListBox Name="LeftDrawer_Menu_LstBox" Grid.Row="2" Style="{StaticResource MaterialDesignListBox}">
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                        <Setter Property="FontWeight" Value="Medium" />
-                                        <Setter Property="FontSize" Value="16" />
-                                    </Style>
-                                </ListBox.ItemContainerStyle>
-                                <ListBoxItem Content="Settings" />
-                                <ListBoxItem Content="Open File"  />
-                                <ListBoxItem Content="Exit" />
-                            </ListBox>
                             <StackPanel Grid.Row="3">
                                 <Separator Style="{StaticResource MaterialDesignSeparator}" />
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10"  >

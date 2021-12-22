@@ -11,23 +11,14 @@
 Get-ChildItem -Path $PSScriptRoot -Filter Common*.PS1 | ForEach-Object {. ($_.FullName)}
 
 $Window = New-Window -XamlFile "$PSScriptRoot\Example13.xaml"
-$ConfigFilePath = "$PSScriptRoot\Example.config"
+$ConfigFilePath = "$PSScriptRoot\Example13.config"
 $ConfigXML = Open-File -Path $ConfigFilePath -FileType xml
 
 Set-Theme -Window $Window -PrimaryColor $ConfigXML.Parameters.Settings.Theme.PrimaryColor -SecondaryColor $ConfigXML.Parameters.Settings.Theme.SecondaryColor -ThemeMode $ConfigXML.Parameters.Settings.Theme.Mode
+
 $LeftDrawer_PrimaryColor_LstBox.Itemssource = $ThemePrimaryColors
 $LeftDrawer_SecondaryColor_LstBox.Itemssource = $ThemeSecondaryColors
 $LeftDrawer_ThemeMode_TglBtn.IsChecked = if((Get-ThemeMode -Window $Window) -eq "Dark") {$true} else {$false}
-
-$Bitmap = [System.Windows.Media.Imaging.BitmapImage]::new()
-$Bitmap.BeginInit()
-$Bitmap.UriSource = "$PSScriptRoot/Resources/Images/mr_bean_tiny.jpg"
-$Bitmap.CacheOption = [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad
-$Bitmap.EndInit()
-$LeftDrawer_Chip_Img.Source = $Bitmap
-$LeftDrawer_Chip_Img.RenderTransformOrigin=".5,.5"
-$LeftDrawer_Chip_Img.RenderTransform.ScaleX = 1.1
-$LeftDrawer_Chip_Img.RenderTransform.ScaleY = 1.1
 
 [scriptblock]$OnClosingLeftDrawer = {
     $DrawerHost.IsLeftDrawerOpen = $false
@@ -45,39 +36,12 @@ $LeftDrawer_Open_TglBtn.add_Click({
     $LeftDrawer_Open_TglBtn.Visibility="Hidden"
 })
 
-$LeftDrawer_Menu_LstBox.add_SelectionChanged({ 
-    switch ($LeftDrawer_Menu_LstBox.SelectedItem.Content) {
-        "Settings"  {
-                        Set-NavigationRailTab -NavigationRail $NavRail -TabName "Settings"
-                    }
-
-        "Open File" {
-                        $OpeneFilePath = Get-OpenFilePath -InitialDirectory $InitialDirectory  -Filter $FileFilter 
-                        if ($OpeneFilePath) {
-                            New-Snackbar -Snackbar $MainSnackbar -Text "You selected $OpeneFilePath"
-                        }
-                    }
-
-        "Exit"      {
-                        $Window.Close()
-                    }
-    }
-    $DrawerHost.IsLeftDrawerOpen = $false
-    $LeftDrawer_Menu_LstBox.SelectedIndex = -1 
-})
-
-$NavRail.add_SelectionChanged({ 
-    New-Snackbar -Snackbar $MainSnackbar -Text "You selected the $(Get-NavigationRailSelectedTabName -NavigationRail $NavRail) page" 
-})
-
 $LeftDrawer_ThemeMode_TglBtn.Add_Click({ 
         $ThemeMode = if ($LeftDrawer_ThemeMode_TglBtn.IsChecked -eq $true) {"Dark"} else {"Light"}
         Set-Theme -Window $Window -ThemeMode $ThemeMode
 }) 
 
 $LeftDrawer_PrimaryColor_LstBox.Add_SelectionChanged( {
-    $this | Out-Host
-    $_  | Out-Host
     if ($this.IsMouseCaptured ) {   # this condition prvents the event to be triggered when listbox selection is changed programatically
         Set-Theme -Window $Window -PrimaryColor $LeftDrawer_PrimaryColor_LstBox.SelectedValue
     }
