@@ -1,14 +1,14 @@
 ###########
 #  Learn how to build Material Design based PowerShell apps
 # 
-#  Common Functions and Assemblies
+#  Common Functions, Variables and Assemblies
 #
 #  Avi Coren (c)
 #  Blog     - https://avicoren.wixsite.com/powershell
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 18, 2021  08:26
+#  Last file update:  Dec 22, 2021  12:22
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")
@@ -24,7 +24,20 @@
 [regex]$Script:RegEx_EmailPattern      = '^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
 [regex]$Script:RegEx_NumbersDash       = '^[\-0-9]*$'
 
-
+# New-Window                        - Sets a new WPF window from a xaml file and declares all named elements as variables. It will also optionally set a Snackbar Queue.
+# New-Snackbar                      - Generates a Snackbar message with an optional button.
+# Set-NavigationRailTab             - Accepts a TabControl and tab name parameters and sets the tab name as selected tab.
+# Get-NavigationRailSelectedTabName - Returns the name of the current selected tab of a TabControl.
+# Get-SaveFilePath                  - Opens a save-file windows dialog and returns the name and path of the file to be saved.
+# Get-OpenFilePath                  - Opens a open-file windows dialog and returns the name and path of the file to be opened.
+# Open-File                         - Opens a file and gets its content based on the FileType parameter. default is Get-Content.
+# Set-CurrentCulture                - Sets the PS Session's culture. All Time and Date UI controls will be effected by that. (DatePicker for example).
+# Get-WinOSAppsTheme                - Will return "Dark" or "Light" based on the current apps theme mode set in windows registry
+# Set-OutlinedProperty              - Alters the visual style of some properties of a Material Design outlined UI control.
+# Set-ValidationError               - (1)Marks/Clears an element's validity, (2)Will return an element vaildity state, (3)Will set an error message for invalid element.
+# Confirm-RequiredField             - Will call Set-ValidationError to Mark/Clear an element if its text is $null or not respectively.
+# Confirm-TextPatternField          - Will call Set-ValidationError to Mark/Clear an element if its text does not match or matches a regular expression respectively.
+# Confirm-TextInput                 - Blocks character from entered into an input element, based on a regular expression match
 
 function New-Window {
     param (
@@ -161,6 +174,13 @@ function Set-CurrentCulture {
     [System.Threading.Thread]::CurrentThread.CurrentCulture = $culture
 }
 
+function Get-WinOSAppsTheme {
+    $ThemeMode = Get-ItemPropertyValue -Path Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize -name AppsUseLightTheme -ErrorAction SilentlyContinue
+    if ($ThemeMode -eq 0) {return "Dark"}
+    elseif ($ThemeMode -eq 1) {return "Light"}
+    else {return $null}
+}
+
 function Set-OutlinedProperty {
     param (
         [System.Management.Automation.PSObject[]]$InputObject,
@@ -291,3 +311,4 @@ function  Confirm-TextInput {
         $UI_Object.SelectionStart = $SelectionStart - 1
     } else { $UI_Object.SelectionStart = $SelectionStart }     
 }
+
