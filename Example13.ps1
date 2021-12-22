@@ -1,7 +1,7 @@
 ###########
 #  Learn how to build Material Design based PowerShell apps
 #  --------------------
-#  Example8: Navigation Rails - Tab awareness + introducing common files
+#  Example13: Introducing Theme
 #  --------------------
 #  Avi Coren (c)
 #  Blog     - https://avicoren.wixsite.com/powershell
@@ -15,11 +15,16 @@ $ConfigFilePath = "$PSScriptRoot\Example.config"
 $ConfigXML = Open-File -Path $ConfigFilePath -FileType xml
 
 Set-Theme -Window $Window -PrimaryColor $ConfigXML.Parameters.Settings.Theme.PrimaryColor -SecondaryColor $ConfigXML.Parameters.Settings.Theme.SecondaryColor -ThemeMode $ConfigXML.Parameters.Settings.Theme.Mode
-Add-ItemToUIControl -UIControl $LeftDrawer_PrimaryColor_LstBox   -ItemToAdd $ThemePrimaryColors
-Add-ItemToUIControl -UIControl $LeftDrawer_SecondaryColor_LstBox -ItemToAdd $ThemeSecondaryColors
+$LeftDrawer_PrimaryColor_LstBox.Itemssource = $ThemePrimaryColors
+$LeftDrawer_SecondaryColor_LstBox.Itemssource = $ThemeSecondaryColors
 $LeftDrawer_ThemeMode_TglBtn.IsChecked = if((Get-ThemeMode -Window $Window) -eq "Dark") {$true} else {$false}
 
-$LeftDrawer_Chip_Img.Source = "$PSScriptRoot\Resources\Images\mr_bean_tiny.jpg"
+$Bitmap = [System.Windows.Media.Imaging.BitmapImage]::new()
+$Bitmap.BeginInit()
+$Bitmap.UriSource = "$PSScriptRoot/Resources/Images/mr_bean_tiny.jpg"
+$Bitmap.CacheOption = [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad
+$Bitmap.EndInit()
+$LeftDrawer_Chip_Img.Source = $Bitmap
 $LeftDrawer_Chip_Img.RenderTransformOrigin=".5,.5"
 $LeftDrawer_Chip_Img.RenderTransform.ScaleX = 1.1
 $LeftDrawer_Chip_Img.RenderTransform.ScaleY = 1.1
@@ -70,7 +75,9 @@ $LeftDrawer_ThemeMode_TglBtn.Add_Click({
         Set-Theme -Window $Window -ThemeMode $ThemeMode
 }) 
 
-$LeftDrawer_PrimaryColor_LstBox.Add_SelectionChanged( { 
+$LeftDrawer_PrimaryColor_LstBox.Add_SelectionChanged( {
+    $this | Out-Host
+    $_  | Out-Host
     if ($this.IsMouseCaptured ) {   # this condition prvents the event to be triggered when listbox selection is changed programatically
         Set-Theme -Window $Window -PrimaryColor $LeftDrawer_PrimaryColor_LstBox.SelectedValue
     }
