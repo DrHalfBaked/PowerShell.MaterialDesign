@@ -4,11 +4,11 @@
 #  Common Functions, Variables and Assemblies
 #
 #  Avi Coren (c)
-#  Blog     - https://avicoren.wixsite.com/powershell
+#  Blog     - https://www.materialdesignps.com
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 22, 2021  18:10
+#  Last file update:  Dec 23, 2021  04:30
 #
 [Void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 [Void][System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Assembly\MaterialDesignThemes.Wpf.dll")

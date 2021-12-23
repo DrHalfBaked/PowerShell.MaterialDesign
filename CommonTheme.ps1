@@ -4,11 +4,11 @@
 #  Common Functions and Assemblies related to Themes
 #
 #  Avi Coren (c)
-#  Blog     - https://avicoren.wixsite.com/powershell
+#  Blog     - https://www.materialdesignps.com
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
-#  Last file update:  Dec 22, 2021  20:58
+#  Last file update:  Dec 23, 2021  04:30
 #
 
 [System.Collections.ArrayList]$ThemePrimaryColors = [System.Enum]::GetNames([MaterialDesignColors.PrimaryColor])

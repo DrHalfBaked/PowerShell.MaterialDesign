@@ -4,7 +4,7 @@
 #  Example7: Navigation Rails with a left Drawer and a right PopupBox
 #  --------------------
 #  Avi Coren (c)
-#  Blog     - https://avicoren.wixsite.com/powershell
+#  Blog     - https://www.materialdesignps.com
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #

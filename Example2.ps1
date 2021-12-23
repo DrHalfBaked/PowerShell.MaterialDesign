@@ -4,7 +4,7 @@
 #  Example2: Open and Save Dialog boxes
 #  --------------------
 #  Avi Coren (c)
-#  Blog     - https://avicoren.wixsite.com/powershell
+#  Blog     - https://www.materialdesignps.com
 #  Github   - https://github.com/DrHalfBaked/PowerShell.MaterialDesign
 #  LinkedIn - https://www.linkedin.com/in/avi-coren-6647b2105/
 #
