@@ -10,3 +10,5 @@ Example9    - Forms
 Example9b   - Forms with input validation
 Example10   - Multiple DialogBoxes?
 Example13   - Introducing Theme
+Example15   - The Spinner and Runspace
+

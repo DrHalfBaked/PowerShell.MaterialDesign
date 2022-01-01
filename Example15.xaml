@@ -1,0 +1,56 @@
+<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    Name="MainWindow"
+    Title="Examples"
+	Height="500"
+	Width="500"
+    Style="{DynamicResource MaterialDesignWindow}" 
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="CanResize"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.FontSize="14"
+    TextElement.FontFamily="Roboto"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    Background="{DynamicResource MaterialDesignPaper}" >
+
+	<Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.BlueGrey.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.DeepOrange.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid Name="SpinnerOverlayLayer" Panel.ZIndex="1000" Visibility="Collapsed" Background="Black" Opacity="0.5">
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Height="20" Width="20" IsIndeterminate="True" >
+                <ProgressBar.LayoutTransform>
+                    <ScaleTransform  ScaleX="4" ScaleY="4"/>
+                </ProgressBar.LayoutTransform>
+            </ProgressBar>
+            <!-- Style="{StaticResource CustomCircularProgressBar} -->
+        </Grid>
+        <Grid>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                
+                    <Button Name="Btn_StartJob" Content="Start Job" Width="150" ToolTip="Start Job" Margin="5"/>
+                
+                <TextBox 
+                    Name="TextBox_Output" 
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    VerticalAlignment="Top"
+                    Height="300"
+                    Width="400"
+                    AcceptsReturn="True"
+                    VerticalScrollBarVisibility="Auto"
+                    Margin="0,10,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
