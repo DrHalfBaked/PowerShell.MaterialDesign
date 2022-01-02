@@ -12,7 +12,7 @@ Get-ChildItem -Path $PSScriptRoot -Filter Common*.PS1 | ForEach-Object {. ($_.Fu
 
 $Window = New-Window -XamlFile "$PSScriptRoot\Example15.xaml"
 $TextBox_Output.AppendText("Main Runspace ID: $(([System.Management.Automation.Runspaces.Runspace]::DefaultRunSpace).id)`n")
-
+    
 $Btn_StartJob.Add_Click({ 
 
     $SpinnerOverlayLayer.Visibility = "Visible"
@@ -31,7 +31,7 @@ $Btn_StartJob.Add_Click({
         $RunspaceID = ([System.Management.Automation.Runspaces.Runspace]::DefaultRunSpace).id
         $SyncHash.Window.Dispatcher.Invoke([action]{$SyncHash.TextBox_Output.AppendText("New Runspace ID: $RunspaceID`n")}, "Normal")
         $Results = [System.Text.StringBuilder]::new()
-        foreach ($number in [float]1..10000000) {
+        foreach ($number in 1..10000000) {
             if (($number % 2560583 ) -eq 0) {
                 [void]$Results.AppendLine($number)
             }
