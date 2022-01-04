@@ -14,13 +14,14 @@ $Window = New-Window -XamlFile "$PSScriptRoot\Example15.xaml"
 $TextBox_Output.AppendText("Main Runspace ID: $(([System.Management.Automation.Runspaces.Runspace]::DefaultRunSpace).id)`n")
 
 $Btn_StartJob.Add_Click({ 
-    $Window.IsEnabled = $false
+    $ApplicationLayer.IsEnabled = $false
     $SpinnerOverlayLayer.Visibility = "Visible"
 
     $Global:SyncHash = [hashtable]::Synchronized(@{ 
         Window              = $window
         SpinnerOverlayLayer = $SpinnerOverlayLayer
         TextBox_Output      = $TextBox_Output
+        ApplicationLayer    = $ApplicationLayer
     })
 	$Runspace = [runspacefactory]::CreateRunspace()
 	$Runspace.ThreadOptions = "ReuseThread"
@@ -40,7 +41,7 @@ $Btn_StartJob.Add_Click({
             $SyncHash.Window.Dispatcher.Invoke([action]{$SyncHash.TextBox_Output.AppendText($Results.ToString())}, "Normal")
         }
         $SyncHash.Window.Dispatcher.Invoke([action]{ $SyncHash.SpinnerOverlayLayer.Visibility = "Collapsed" }, "Normal")
-        $SyncHash.Window.Dispatcher.Invoke([action]{ $SyncHash.Window.IsEnabled = $true }, "Normal")
+        $SyncHash.Window.Dispatcher.Invoke([action]{ $SyncHash.ApplicationLayer.IsEnabled = $true }, "Normal")
         
 	})
 	$Worker.Runspace = $Runspace
