@@ -2,13 +2,19 @@ Example1    - Input text to top textbox then button click displays text in the b
 Example2    - Open and Save Dialog boxes. Floating Mini Buttons, OutlinedTextBox
 Example3    - SnackBars   {move the xaml snackbar around to show that its at the bottom and when in stackpanel it pushes items. finally put it in a DockPanel below the stackpanel (with margin) and show the opacity problem}
 Example4    - DataTable / DataGrid  {Task: Add a refresh button to get new data, text has no validation yet}
-Example5    - DataTable With Sellect/unsellect all checkbox
+Example5    - 
 Example6    - Tab Control (Navigation Rails)
 Example7    - Tab Control (Navigation Rails) with popup box and left drawer
 Example8    - Tab awareness + introducing common files
 Example9    - Forms
 Example9b   - Forms with input validation
 Example10   - Multiple DialogBoxes?
+Example11   - ListView with a GridView
+Example12   -
 Example13   - Introducing Theme
+Example14   -
 Example15   - The Spinner and Runspace
+Example16   -
+Example17   - DataTable With Sellect/unsellect all checkbox
+
 
