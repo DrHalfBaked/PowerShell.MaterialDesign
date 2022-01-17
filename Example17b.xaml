@@ -37,26 +37,39 @@
         </StackPanel>
         <materialDesign:Card Name="Services_Card" Grid.Row="0" Background="{DynamicResource PrimaryHueLightBrush}" 
                  Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Width="1100" Padding="30" Margin="20">
-                <DataGrid   Name="Services_DataGrid" AutoGenerateColumns="False" SelectionUnit="FullRow" CanUserAddRows = "False" IsReadOnly = "True"
-                            GridLinesVisibility = "Horizontal" CanUserReorderColumns = "True"
-                            materialDesign:DataGridAssist.CellPadding="10,5,10,5" materialDesign:DataGridAssist.ColumnHeaderPadding="10,5,10,5">
+                <DataGrid   Name="Services_DataGrid" AutoGenerateColumns="False" SelectionUnit="FullRow" CanUserAddRows="False" IsReadOnly="True"
+                            GridLinesVisibility="Horizontal" CanUserReorderColumns="True" VerticalAlignment="Center"
+                            materialDesign:DataGridAssist.CellPadding="5" materialDesign:DataGridAssist.ColumnHeaderPadding="5">
                     <DataGrid.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MaterialDesignDataGridCell}">
                             <Style.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
                                     <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                    </Trigger>
+                            </Style.Triggers>
+                             <Setter Property="VerticalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
-                    </DataGrid.CellStyle>
+                    </DataGrid.RowStyle>
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Binding="{Binding Path=CheckboxChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" CanUserResize="False" IsReadOnly = "False">
-                            <DataGridCheckBoxColumn.ElementStyle>
-                                <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}" />
-                            </DataGridCheckBoxColumn.ElementStyle>
+                        <DataGridCheckBoxColumn Binding="{Binding CheckboxSelect}" CanUserResize="False" IsReadOnly = "False">
                             <DataGridCheckBoxColumn.Header>
                                 <CheckBox Name="Services_HeaderChkBox" />
                             </DataGridCheckBoxColumn.Header>
+                            <DataGridCheckBoxColumn.ElementStyle>
+                                <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}" />
+                            </DataGridCheckBoxColumn.ElementStyle>
                         </DataGridCheckBoxColumn>
                         <DataGridTextColumn Binding="{Binding Name}" >
                             <DataGridTextColumn.Header>
@@ -93,41 +106,48 @@
                         <DataGridTemplateColumn CanUserResize="False" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="HiddenDeleteButton" Visibility="Hidden" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" >
+                                    <Button Name="Services_DeleteButton" Visibility="Hidden" Style="{StaticResource MaterialDesignIconButton}" >
                                     <Button.LayoutTransform>
-                                        <ScaleTransform  ScaleX="0.7" ScaleY="0.7"/>
+                                        <ScaleTransform  ScaleX="0.85" ScaleY="0.85"/>
                                     </Button.LayoutTransform>
-                                        <materialDesign:PackIcon Kind="FolderOpenOutline" Height="25" Width="25" />
+                                        <materialDesign:PackIcon Kind="DeleteOutline" Height="25" Width="25" />
                                     </Button>
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="True">
-                                            <Setter Property="Visibility" TargetName="HiddenDeleteButton" Value="Visible"/>
+                                            <Setter Property="Visibility" TargetName="Services_DeleteButton" Value="Visible"/>
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn CanUserResize="False" materialDesign:DataGridAssist.CellPadding="5">
+                        <DataGridTemplateColumn CanUserResize="False" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="HiddenInsertButton" Visibility="Hidden" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" >
+                                    <Button Name="Services_InsertButton" Visibility="Hidden" Style="{StaticResource MaterialDesignIconButton}" >
                                     <Button.LayoutTransform>
-                                        <ScaleTransform  ScaleX="0.7" ScaleY="0.7"/>
+                                        <ScaleTransform  ScaleX="0.85" ScaleY="0.85"/>
                                     </Button.LayoutTransform>
                                         <materialDesign:PackIcon Kind="Eye" Height="25" Width="25" />
                                     </Button>
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="True">
-                                            <Setter Property="Visibility" TargetName="HiddenInsertButton" Value="Visible"/>
-                                        </DataTrigger>
-                                         <DataTrigger Binding="{Binding Path=IsPressed}" Value="True">
-                                            <Setter Property="ToolTip" TargetName="HiddenInsertButton" Value="xxxxx"/>
+                                            <Setter Property="Visibility" TargetName="Services_InsertButton" Value="Visible"/>
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
+                    <!-- <DataGrid.RowDetailsTemplate>   *Option to show row details*
+                        <DataTemplate>
+                            <Grid> 
+						        <Border BorderThickness="0" Background="{DynamicResource MaterialDesignPaper}" Padding="10,0,10,10" Height="150">
+                                    <TextBlock Text="{Binding  Description}"  Width="550" TextWrapping="Wrap" Height="60" 
+                                        HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" />
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate> -->
                 </DataGrid>
         </materialDesign:Card>
     </Grid>
