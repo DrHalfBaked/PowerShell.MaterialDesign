@@ -9,7 +9,7 @@ Example8    - Tab awareness + introducing common files
 Example9    - Forms
 Example9b   - Forms with input validation
 Example10   - Multiple DialogBoxes?
-Example11   - ListView with a GridView
+Example11   - Context menu in TextBox
 Example12   -
 Example13   - Introducing Theme
 Example14   -

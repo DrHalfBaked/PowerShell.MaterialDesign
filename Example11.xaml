@@ -4,8 +4,8 @@
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	Name="MainWindow"
 	Title="Examples"
-    Height="800"
-	Width="1200"
+    Height="500"
+	Width="500"
     Style="{DynamicResource MaterialDesignWindow}" 
 	WindowStartupLocation="CenterScreen"
 	ResizeMode="CanResize"
@@ -28,30 +28,29 @@
     </Window.Resources>
 
     <Grid>
-        <ListView  Name="lvUsers" Width="600" >
-        <ListView.ItemContainerStyle>
-        <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-        </Style>
-    </ListView.ItemContainerStyle>
-			<ListView.View>
-				<GridView AllowsColumnReorder="True">
-					<GridViewColumn Header="Name"  DisplayMemberBinding="{Binding Name}" />
-					<GridViewColumn Header="Age" DisplayMemberBinding="{Binding Age}" />
-					<GridViewColumn Header="Mail" >
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding Mail}" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-				</GridView>
-			</ListView.View>
-		</ListView>
-
-
-
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <Button  Name="Btn_OpenFile" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" ToolTip="Open File" Margin="5">
+                    <materialDesign:PackIcon Kind="FolderOpenOutline" Height="25" Width="25" />
+                </Button>
+                <Button Name="Btn_SaveFile" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" ToolTip="Save File" Margin="5">
+                    <materialDesign:PackIcon Kind="ContentSaveOutline" Height="25" Width="25" />
+                </Button>
+            </StackPanel>
+            <TextBox Name="TextBox_Editor" Style="{StaticResource MaterialDesignOutlinedTextBox}" VerticalAlignment="Top" Height="300" Width="400"
+                AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
+				<TextBox.ContextMenu>
+					<ContextMenu>
+						<MenuItem Name="TextBox_Editor_CopySelectedToClipboard_MenuItm" Header="Copy Selected Text To Clipboard (Ctrl+C)" />
+						<MenuItem Name="TextBox_Editor_CopyAllToClipboard_MenuItm" Header="Copy All To Clipboard (Ctrl+A -> Ctrl+C)" />
+						<MenuItem Name="TextBox_Editor_PasteFromClipboard_MenuItm" Header="Paste (Ctrl+V)"  />
+						<MenuItem Name="TextBox_Editor_CutToClipboard_MenuItm" Header="Cut (Ctrl+X)"  />
+						<Separator />
+						<MenuItem Name="TextBox_Editor_AnyOtherAction_MenuItm" Header="Any Other Action"  />
+					</ContextMenu>
+				</TextBox.ContextMenu>
+			</TextBox>
+        </StackPanel>
     </Grid>
-
 
 </Window>

@@ -1,7 +1,7 @@
 ###########
 #  Learn how to build Material Design based PowerShell apps
 #  --------------------
-#  Example11: ListView with a GridView
+#  Example11: Context menu in TextBox
 #  --------------------
 #  Avi Coren (c)
 #  Blog     - https://www.materialdesignps.com
@@ -12,37 +12,44 @@ Get-ChildItem -Path $PSScriptRoot -Filter Common*.PS1 | ForEach-Object {. ($_.Fu
 
 $Window = New-Window -XamlFile "$PSScriptRoot\Example11.xaml"
 
+$InitialDirectory   = "$([Environment]::GetFolderPath("MyDocuments"))"
+$FileFilter         = "Text files|*.txt|All Files|*.*"
 
-[System.Collections.ArrayList]$items = @()
-			
-$obj = New-Object -TypeName PSObject -Property @{ 
-    "Name"    = "John Doe"
-    "Age"     = 42
-    "Mail" = "john@doe-family.com" 
+$Btn_OpenFile.add_Click({ On_OpenFile })
+$Btn_SaveFile.add_Click({ On_SaveFile })
+$TextBox_Editor_CopySelectedToClipboard_MenuItm.add_Click({ On_CopySelectedToClipboard })
+$TextBox_Editor_CopyAllToClipboard_MenuItm.add_Click({      On_CopyAllToClipboard      })
+$TextBox_Editor_PasteFromClipboard_MenuItm.add_Click({      On_PasteFromClipboard      })
+$TextBox_Editor_CutToClipboard_MenuItm.add_Click({          On_CutToClipboard          })
+Function On_OpenFile {
+    $OpenedFile = Get-OpenFilePath -InitialDirectory $InitialDirectory  -Filter $FileFilter 
+    if ($OpenedFile) {
+        $TextBox_Editor.Text = Get-content $OpenedFile -Raw
+    }
 }
 
-[void]$items.Add($obj)
-
-$obj = New-Object -TypeName PSObject -Property @{ 
-    "Name"    = "Jane Doe"
-    "Age"     = 39
-    "Mail" = "jane@doe-family.com" 
+Function On_SaveFile {
+    $SavePath = Get-SaveFilePath -InitialDirectory $InitialDirectory -Filter $FileFilter 
+    if ($SavePath) {
+        $TextBox_Editor.Text | Out-File -FilePath $SavePath -Encoding UTF8
+    }
 }
 
-[void]$items.Add($obj)
-
-$obj = New-Object -TypeName PSObject -Property @{ 
-    "Name"    = "Sammy Doe"
-    "Age"     = 7
-    "Mail" = "sammy.doe@gmail.com" 
+function On_CopySelectedToClipboard {
+    $TextBox_Editor.Copy()
 }
 
-[void]$items.Add($obj)
+function On_CopyAllToClipboard {
+    [System.Windows.Clipboard]::SetText($TextBox_Editor.Text)
+}
 
-$lvUsers.ItemsSource = $items
+function On_PasteFromClipboard {
+    $TextBox_Editor.Paste()
+}
 
-$async = $Window.Dispatcher.InvokeAsync( {
-    $Window.ShowDialog()
-})
+function On_CutToClipboard {
+    $TextBox_Editor.Cut()
+}
 
-$async.Wait() | Out-Null  
+
+$Window.ShowDialog() | out-null
