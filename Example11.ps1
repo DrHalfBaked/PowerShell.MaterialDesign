@@ -21,14 +21,14 @@ $TextBox_Editor_CopySelectedToClipboard_MenuItm.add_Click({ On_CopySelectedToCli
 $TextBox_Editor_CopyAllToClipboard_MenuItm.add_Click({      On_CopyAllToClipboard      })
 $TextBox_Editor_PasteFromClipboard_MenuItm.add_Click({      On_PasteFromClipboard      })
 $TextBox_Editor_CutToClipboard_MenuItm.add_Click({          On_CutToClipboard          })
-Function On_OpenFile {
+function On_OpenFile {
     $OpenedFile = Get-OpenFilePath -InitialDirectory $InitialDirectory  -Filter $FileFilter 
     if ($OpenedFile) {
         $TextBox_Editor.Text = Get-content $OpenedFile -Raw
     }
 }
 
-Function On_SaveFile {
+function On_SaveFile {
     $SavePath = Get-SaveFilePath -InitialDirectory $InitialDirectory -Filter $FileFilter 
     if ($SavePath) {
         $TextBox_Editor.Text | Out-File -FilePath $SavePath -Encoding UTF8
