@@ -15,6 +15,6 @@ Example13   - Introducing Theme
 Example14   -
 Example15   - The Spinner and Runspace
 Example16   -
-Example17   - DataTable With Sellect/unsellect all checkbox
+Example17   - DataTable With "Gmail-like" controls
 
 

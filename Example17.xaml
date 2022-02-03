@@ -1,0 +1,129 @@
+<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	Name="MainWindow"
+	Title="Examples"
+    Height="800"
+	Width="700"
+    Style="{DynamicResource MaterialDesignWindow}" 
+	WindowStartupLocation="CenterScreen"
+	ResizeMode="CanResize"
+	TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+	TextElement.FontSize="14"
+    TextElement.FontFamily="Roboto"
+	TextOptions.TextFormattingMode="Ideal"
+	TextOptions.TextRenderingMode="Auto"
+	Background="{DynamicResource MaterialDesignPaper}" >
+
+	<Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.BlueGrey.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.DeepOrange.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <materialDesign:Card Name="Services_Card" Grid.Row="0" Background="{DynamicResource PrimaryHueLightBrush}" 
+                 Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" Width="650" Padding="30" Margin="20">
+                <DataGrid   Name="Services_DataGrid" AutoGenerateColumns="False" SelectionUnit="FullRow" CanUserAddRows="False" IsReadOnly="True"
+                            GridLinesVisibility="Horizontal" CanUserReorderColumns="True" VerticalAlignment="Center"
+                            materialDesign:DataGridAssist.CellPadding="5" materialDesign:DataGridAssist.ColumnHeaderPadding="5" >
+                    <DataGrid.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                            <Setter Property="FontSize" Value="16" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Binding="{Binding CheckboxSelect}" CanUserResize="False" IsReadOnly = "False">
+                            <DataGridCheckBoxColumn.Header>
+                                <CheckBox Name="Services_HeaderChkBox"  />
+                            </DataGridCheckBoxColumn.Header>
+                            <DataGridCheckBoxColumn.ElementStyle>
+                                <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}" >
+                                    <Setter Property="VerticalAlignment" Value="Top"></Setter>
+                                    <Setter Property="VerticalContentAlignment" Value="Top"></Setter>
+                                </Style>
+                            </DataGridCheckBoxColumn.ElementStyle>
+                        </DataGridCheckBoxColumn>
+                        <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                        <DataGridTextColumn  Binding="{Binding State}" Header="Status" >
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="Stopped">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="Running">
+                                            <Setter Property="Foreground" Value="Green" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+							</DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn  Binding="{Binding StartMode}" Header="Start Mode" />
+                        <DataGridTemplateColumn CanUserResize="False" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="Services_DeleteButton" Visibility="Hidden" Style="{StaticResource MaterialDesignIconButton}" >
+                                    <Button.LayoutTransform>
+                                        <ScaleTransform  ScaleX="0.85" ScaleY="0.85"/>
+                                    </Button.LayoutTransform>
+                                        <materialDesign:PackIcon Kind="DeleteOutline" Height="25" Width="25" />
+                                    </Button>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="True">
+                                            <Setter Property="Visibility" TargetName="Services_DeleteButton" Value="Visible"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn CanUserResize="False" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="Services_ViewButton" Visibility="Hidden" Style="{StaticResource MaterialDesignIconButton}" >
+                                    <Button.LayoutTransform>
+                                        <ScaleTransform  ScaleX="0.85" ScaleY="0.85"/>
+                                    </Button.LayoutTransform>
+                                        <materialDesign:PackIcon Kind="Eye" Height="25" Width="25" />
+                                    </Button>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="True">
+                                            <Setter Property="Visibility" TargetName="Services_ViewButton" Value="Visible"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+        </materialDesign:Card>
+    </Grid>
+</Window>
