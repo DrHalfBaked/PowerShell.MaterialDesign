@@ -25,6 +25,10 @@ foreach ($Service in $Services) {
     [void]$Services_Datatable.Rows.Add($false,$Service.Name, $Service.Description, $Service.State, $Service.StartMode)
 }
 
+$Services_DataGrid.add_SelectionChanged({ #Because we use checkboxes for row selection we have to disable the row click selection
+    $_.Handled = $true
+})
+
 $Services_HeaderChkBox.add_Indeterminate({
     if ($_.OriginalSource.IsMouseOver) {
         $Services_HeaderChkBox.IsChecked = $false  
@@ -48,9 +52,6 @@ $Services_HeaderChkBox.add_UnChecked({
     }
 })
 
-$Services_DataGrid.add_SelectionChanged({ #Because we use checkboxes for row selection we have to disable the row click selection
-    $_.Handled = $true
-})
 
 $Services_DataGrid.Add_GotMouseCapture({
     $OriginalSourceName = $_.OriginalSource.Name
