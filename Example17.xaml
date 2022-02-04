@@ -63,7 +63,7 @@
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Binding="{Binding CheckboxSelect}" CanUserResize="False" IsReadOnly = "False">
                             <DataGridCheckBoxColumn.Header>
-                                <CheckBox Name="Services_HeaderChkBox"  />
+                                <CheckBox Name="Services_HeaderChkBox" IsThreeState="True" />
                             </DataGridCheckBoxColumn.Header>
                             <DataGridCheckBoxColumn.ElementStyle>
                                 <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}" >

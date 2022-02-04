@@ -17,6 +17,7 @@ $Services_Datatable = [System.Data.DataTable]::New()
 [void]$Services_Datatable.Columns.AddRange(@('Name', 'Description', 'State', 'StartMode'))
 $Services_Datatable.primarykey = $Services_Datatable.columns['Name']
 $Services_DataGrid.ItemsSource = $Services_Datatable.DefaultView
+[System.Collections.ArrayList]$Script:SelectedRows = @()
 
 $Services = Get-CimInstance -ClassName Win32_service | Select-Object name, description, state, startmode
 
@@ -24,16 +25,27 @@ foreach ($Service in $Services) {
     [void]$Services_Datatable.Rows.Add($false,$Service.Name, $Service.Description, $Service.State, $Service.StartMode)
 }
 
-$Services_HeaderChkBox.add_Checked({ 
-    $Services_Datatable | ForEach-Object {$_.CheckboxSelect = $true}
-    write-host -ForegroundColor "Green" "Select all was ticked. Now all the records are selected"
-    #$Services_DataGrid.SelectAll()   #Because we use checkboxes for row selection we don't need to set all rows as selected
+$Services_HeaderChkBox.add_Indeterminate({
+    if ($_.OriginalSource.IsMouseOver) {
+        $Services_HeaderChkBox.IsChecked = $false  
+    }
 })
 
-$Services_HeaderChkBox.add_UnChecked({ 
-    $Services_Datatable | ForEach-Object {$_.CheckboxSelect = $false}
-    write-host -ForegroundColor "Red" "Unselect all was ticked. Now none of the records are selected"
-    #$Services_DataGrid.SelectedItems.Clear()   #Because we use checkboxes for row selection we don't need to set all rows as not-selected
+$Services_HeaderChkBox.add_Checked({
+    if ($_.OriginalSource.IsMouseOver) {
+        $Services_Datatable | ForEach-Object {$_.CheckboxSelect = $true}
+        $Script:SelectedRows.Clear()
+        $Script:SelectedRows += $Services_Datatable.Rows  # Equivalent of $Services_DataGrid.SelectAll()
+        write-host -ForegroundColor "Green" "Select all was ticked. $($SelectedRows.Count) records are selected"
+    }
+})
+
+$Services_HeaderChkBox.add_UnChecked({
+    if ($_.OriginalSource.IsMouseOver) {
+        $Services_Datatable | ForEach-Object {$_.CheckboxSelect = $false}
+        $SelectedRows.Clear() # Equivalent of $Services_DataGrid.SelectedItems.Clear()
+        write-host -ForegroundColor "Red" "Unselect all was ticked. $($SelectedRows.Count) records are selected"
+    }
 })
 
 $Services_DataGrid.add_SelectionChanged({ #Because we use checkboxes for row selection we have to disable the row click selection
@@ -52,7 +64,23 @@ $Services_DataGrid.Add_GotMouseCapture({
                                 $RowIndex = $Services_Datatable.Rows.IndexOf($Row[0])
                                 $Services_Datatable.Rows[$RowIndex].CheckboxSelect = !($Services_Datatable.Rows[$RowIndex].CheckboxSelect)
                                 $OriginalSource.IsChecked = !($OriginalSource.IsChecked) # It has to reflip to get to the right state.
-                                write-host -ForegroundColor "Blue" "$CurrentItemName checkbox was clicked. its Check value is $(!$OriginalSource.IsChecked)"
+                                if (!$OriginalSource.IsChecked) {
+                                    $SelectedRows.Add($Services_Datatable.Rows[$RowIndex])
+                                    write-host -ForegroundColor "Blue" "$CurrentItemName was selected. $($SelectedRows.Count) records are selected"
+                                }
+                                else {
+                                    $SelectedRows.RemoveAt( $SelectedRows.IndexOf( ($SelectedRows | Where-Object {$_.name -eq $CurrentItemName})))
+                                    write-host -ForegroundColor "Blue" "$CurrentItemName was unselected. $($SelectedRows.Count) records are selected"
+                                }
+                                if ($Script:SelectedRows.Count -eq ($Script:Services_Datatable.Rows).Count ) {
+                                    $Services_HeaderChkBox.IsChecked = $true
+                                }
+                                elseif ($Script:SelectedRows.Count -eq 0) {
+                                    $Services_HeaderChkBox.IsChecked = $false
+                                }
+                                else {
+                                    $Services_HeaderChkBox.IsChecked = $null
+                                }
                             break
                         }
             "Button"    {
@@ -63,13 +91,11 @@ $Services_DataGrid.Add_GotMouseCapture({
                             break
                         }
         }
-        #$Services_Datatable | Where-Object {$_.CheckboxSelect -eq $true} | out-host
     }
 })
 
 $async = $Window.Dispatcher.InvokeAsync( {
     $Window.ShowDialog()
-    
 })
 
 $async.Wait() | Out-Null  
